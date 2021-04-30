@@ -1,7 +1,7 @@
 {
 	"name": "C# (.NET) and RabbitMQ",
 	"dockerComposeFile": "docker-compose.yml",
-	"forwardPorts": [ 4369, 5671, 5672, 15691, 15692, 25672 ],
+	"forwardPorts": [ 4369, 5671, 5672, 15671, 15672, 25672 ],
 	"service": "demos",
 	"workspaceFolder": "/workspace",
 
