@@ -3,7 +3,7 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Text;
 
-namespace Receiver
+namespace Sales
 {
     class Program
     {
@@ -13,7 +13,7 @@ namespace Receiver
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
+                channel.QueueDeclare(queue: "sales",
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -26,7 +26,7 @@ namespace Receiver
                     var message = Encoding.UTF8.GetString(body);
                     Console.WriteLine(" [x] Received {0}", message);
                 };
-                channel.BasicConsume(queue: "hello",
+                channel.BasicConsume(queue: "sales",
                                      autoAck: true,
                                      consumer: consumer);
 

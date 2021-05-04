@@ -2,7 +2,7 @@
 using RabbitMQ.Client;
 using System.Text;
 
-namespace Sender
+namespace Website
 {
     class Program
     {
@@ -12,7 +12,7 @@ namespace Sender
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
+                channel.QueueDeclare(queue: "sales",
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -22,7 +22,7 @@ namespace Sender
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "",
-                                     routingKey: "hello",
+                                     routingKey: "sales",
                                      basicProperties: null,
                                      body: body);
                 Console.WriteLine(" [x] Sent {0}", message);
