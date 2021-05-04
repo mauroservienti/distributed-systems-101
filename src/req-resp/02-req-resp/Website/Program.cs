@@ -36,23 +36,7 @@ namespace Website
                 Console.WriteLine($"Sent {message}");
             }
 
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
-            {
-                var receivedBody = ea.Body.ToArray();
-                var receivedMessage = Encoding.UTF8.GetString(receivedBody);
-                Console.WriteLine($"Received {receivedMessage} with correlation ID {ea.BasicProperties.CorrelationId}");
-            };
-
-            while (true)
-            {
-                channel.BasicConsume(queue: "website",
-                                     autoAck: true,
-                                     consumer: consumer);
-
-                System.Threading.Thread.Sleep(500);
-            }
-
+            Console.WriteLine(" Website endpoint running.");
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
         }

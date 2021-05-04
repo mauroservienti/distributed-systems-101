@@ -45,6 +45,7 @@ namespace Sales
                                      autoAck: true,
                                      consumer: consumer);
 
+                Console.WriteLine(" Sales endpoint running.");
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
             }
