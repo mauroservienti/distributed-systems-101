@@ -13,6 +13,7 @@ namespace Sales
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
+                channel.ConfirmSelect();
                 channel.QueueDeclare(queue: "sales",
                                      durable: true,
                                      exclusive: false,
