@@ -13,7 +13,7 @@ namespace Website
             using (var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: "sales",
-                                     durable: false,
+                                     durable: true,
                                      exclusive: false,
                                      autoDelete: false,
                                      arguments: null);
