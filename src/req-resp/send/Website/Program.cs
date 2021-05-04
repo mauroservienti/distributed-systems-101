@@ -26,6 +26,8 @@ namespace Website
                                      routingKey: "sales",
                                      basicProperties: null,
                                      body: body);
+                channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
+                
                 Console.WriteLine(" [x] Sent {0}", message);
             }
 
