@@ -1,5 +1,6 @@
 ﻿using System;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System.Text;
 
 namespace Website
@@ -18,18 +19,30 @@ namespace Website
                                      durable: true,
                                      exclusive: false,
                                      autoDelete: false,
-                                     arguments: null);   
+                                     arguments: null);
+
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
+                {
+                    var receivedBody = ea.Body.ToArray();
+                    var receivedMessage = Encoding.UTF8.GetString(receivedBody);
+                    Console.WriteLine($"Received {receivedMessage} with correlation ID {ea.BasicProperties.CorrelationId}");
+                };
+
+                channel.BasicConsume(queue: "website",
+                                     autoAck: true,
+                                     consumer: consumer);   
 
                 var props = channel.CreateBasicProperties();
                 props.ReplyTo = "website";
-                props.CorrelationId = "order-abc"
+                props.CorrelationId = "order-abc";
 
                 string message = "Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "",
                                      routingKey: "sales",
-                                     basicProperties: null,
+                                     basicProperties: props,
                                      body: body);
                 channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
                 
