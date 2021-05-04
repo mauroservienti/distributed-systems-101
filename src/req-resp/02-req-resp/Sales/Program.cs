@@ -25,16 +25,17 @@ namespace Sales
                 {
                     var receivedBody = ea.Body.ToArray();
                     var receivedMessage = Encoding.UTF8.GetString(receivedBody);
-                    Console.WriteLine($"Received {receivedMessage} with correlation ID {ea.BasicProperties.CorrelationId}");
+                    var receivedProps = ea.BasicProperties;
+                    Console.WriteLine($"Received {receivedMessage} with correlation ID {receivedProps.CorrelationId}");
 
                     var replyProps = channel.CreateBasicProperties();
-                    replyProps.CorrelationId = ea.BasicProperties.CorrelationId;
+                    replyProps.CorrelationId = receivedProps.CorrelationId;
 
-                    string replyMessage = $"Order {ea.BasicProperties.CorrelationId} on its way...";
+                    string replyMessage = $"Order {receivedProps.CorrelationId} on its way...";
                     var replyBody = Encoding.UTF8.GetBytes(replyMessage);
 
                     channel.BasicPublish(exchange: "",
-                                     routingKey: ea.BasicProperties.ReplyTo,
+                                     routingKey: receivedProps.ReplyTo,
                                      basicProperties: replyProps,
                                      body: replyBody);
                     channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
