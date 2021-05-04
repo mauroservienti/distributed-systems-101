@@ -13,11 +13,6 @@ namespace Website
             using (var channel = connection.CreateModel())
             {
                 channel.ConfirmSelect();
-                channel.QueueDeclare(queue: "sales",
-                                     durable: true,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
 
                 string message = "Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
