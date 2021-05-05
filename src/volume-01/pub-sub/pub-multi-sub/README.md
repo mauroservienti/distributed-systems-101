@@ -1,4 +1,4 @@
-# Demo 2 - Request/Response
+# Demo 2 - Pub/Sub with multiple subscribers
 
 > Note:
 >

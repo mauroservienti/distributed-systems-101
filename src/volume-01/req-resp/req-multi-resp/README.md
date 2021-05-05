@@ -1,4 +1,4 @@
-# Demo 2 - Request/Response
+# Demo 2 - Request/multi-Response
 
 > Note:
 >
