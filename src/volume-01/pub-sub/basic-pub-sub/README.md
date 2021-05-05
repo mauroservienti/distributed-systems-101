@@ -1,4 +1,4 @@
-# Demo 2 - Pub/Sub
+# Demo 1 - Pub/Sub
 
 > Note:
 >
