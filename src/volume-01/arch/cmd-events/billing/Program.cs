@@ -8,7 +8,7 @@ namespace Billing
     {
         public static async Task Main()
         {
-            var config = new EndpointConfiguration("nsb.billing");
+            var config = new EndpointConfiguration("billing");
             config.EnableInstallers();
 
             var conventions = config.Conventions();

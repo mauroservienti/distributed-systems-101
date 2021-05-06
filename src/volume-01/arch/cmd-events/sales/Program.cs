@@ -8,7 +8,7 @@ namespace Sales
     {
         public static async Task Main()
         {
-            var config = new EndpointConfiguration("nsb.sales");
+            var config = new EndpointConfiguration("sales");
             config.EnableInstallers();
 
             var conventions = config.Conventions();

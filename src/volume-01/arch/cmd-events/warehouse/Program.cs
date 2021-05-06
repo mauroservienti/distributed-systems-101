@@ -8,7 +8,7 @@ namespace Warehouse
     {
         public static async Task Main()
         {
-            var config = new EndpointConfiguration("nsb.warehouse");
+            var config = new EndpointConfiguration("warehouse");
             config.EnableInstallers();
 
             var conventions = config.Conventions();

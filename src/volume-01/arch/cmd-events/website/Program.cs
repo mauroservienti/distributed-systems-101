@@ -9,7 +9,7 @@ namespace Website
     {
         public static async Task Main()
         {
-            var config = new EndpointConfiguration("nsb.website");
+            var config = new EndpointConfiguration("website");
             config.EnableInstallers();
 
             var conventions = config.Conventions();
@@ -22,7 +22,7 @@ namespace Website
             transport.UseConventionalRoutingTopology();
 
             var routing = transport.Routing();
-            routing.RouteToEndpoint(typeof(PlaceOrder).Assembly, "nsb.sales");
+            routing.RouteToEndpoint(typeof(PlaceOrder).Assembly, "sales");
 
             var endpoint = await Endpoint.Start(config);
 
