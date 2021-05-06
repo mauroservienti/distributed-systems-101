@@ -1,6 +1,6 @@
 ﻿namespace Sales.Messages
 {
-    public class OrderReceived
+    public class PlaceOrderReply
     {
         public string OrderId { get; set; }
     }

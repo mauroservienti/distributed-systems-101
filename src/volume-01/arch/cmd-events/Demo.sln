@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Messages", "Sales.Mes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Events", "Sales.Events\Sales.Events.csproj", "{51470F8D-54D1-45DA-BC8A-0979D927ECAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Events", "Warehouse.Events\Warehouse.Events.csproj", "{0C9FF0C8-1148-4EFC-8062-9BE06BB869BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billing.Events", "Billing.Events\Billing.Events.csproj", "{0BF1198B-1BA6-405C-86A9-DCF16310F547}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{51470F8D-54D1-45DA-BC8A-0979D927ECAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51470F8D-54D1-45DA-BC8A-0979D927ECAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51470F8D-54D1-45DA-BC8A-0979D927ECAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C9FF0C8-1148-4EFC-8062-9BE06BB869BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C9FF0C8-1148-4EFC-8062-9BE06BB869BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C9FF0C8-1148-4EFC-8062-9BE06BB869BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C9FF0C8-1148-4EFC-8062-9BE06BB869BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BF1198B-1BA6-405C-86A9-DCF16310F547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BF1198B-1BA6-405C-86A9-DCF16310F547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BF1198B-1BA6-405C-86A9-DCF16310F547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BF1198B-1BA6-405C-86A9-DCF16310F547}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

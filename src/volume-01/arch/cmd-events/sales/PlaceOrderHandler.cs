@@ -13,7 +13,7 @@ namespace Sales
         {
             Console.WriteLine($"Received PlaceOrder with order ID {message.OrderId}, correlation ID: {context.MessageHeaders[Headers.CorrelationId]}");
 
-            await context.Reply(new OrderReceived() {OrderId = message.OrderId});
+            await context.Reply(new PlaceOrderReply() {OrderId = message.OrderId});
             Console.WriteLine($"Replied OrderReceived to {context.ReplyToAddress}");
 
             await context.Publish(new OrderPlaced() {OrderId = message.OrderId});

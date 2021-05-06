@@ -10,4 +10,9 @@
     <PackageReference Include="NServiceBus.RabbitMQ" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sales.Events\Sales.Events.csproj" />
+    <ProjectReference Include="..\Warehouse.Events\Warehouse.Events.csproj" />
+  </ItemGroup>
+
 </Project>
