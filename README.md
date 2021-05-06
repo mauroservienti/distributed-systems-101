@@ -28,9 +28,10 @@ Wait for Visual Studio Code Remote container extension to:
 
 The repository `devcontainer` configuration will:
 
-- Create two container instances:
+- Create three container instances:
   - A RabbitMQ instance with management plugin support
   - A .NET 5 enabled container where the repository source code will be available
+  - A PostgreSQL instance (Used starting Volume 1/Lesson 4)
 - Configure the VS Code remote instance with:
   - The C# extension (`ms-dotnettools.csharp`)
   - Bash as the default terminal

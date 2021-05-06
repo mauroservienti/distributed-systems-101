@@ -1,7 +1,7 @@
 {
 	"name": "C# (.NET) and RabbitMQ",
 	"dockerComposeFile": "docker-compose.yml",
-	"forwardPorts": [ 4369, 5671, 5672, 15671, 15672, 25672 ],
+	"forwardPorts": [ 4369, 5671, 5672, 15671, 15672, 25672, 5432 ],
 	"service": "demos",
 	"workspaceFolder": "/workspace",
 
@@ -13,5 +13,6 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-dotnettools.csharp",
+		"ckolkman.vscode-postgres",
 	]
 }

@@ -22,7 +22,7 @@ services:
       # Overrides default command so things don't shut down after the process ends.
       command: sleep infinity
 
-      # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+      # Runs app on the same network as the message broker container, allows "forwardPorts" in devcontainer.json function.
       network_mode: service:rabbit
 
       # Uncomment the next line to use a non-root user for all processes.
@@ -41,3 +41,13 @@ services:
       ports:
          - "5672:5672"
          - "15672:15672"
+   
+   shipping-database:
+      image: postgres
+      env_file: 
+         - shipping-database.env
+
+      network_mode: service:rabbit
+
+      volumes:
+         - ./shipping-database-init.sql:/docker-entrypoint-initdb.d/shipping-database-init.sql
