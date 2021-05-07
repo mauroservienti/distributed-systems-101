@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NServiceBus;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace Shipping
 {
@@ -19,6 +21,17 @@ namespace Shipping
             var transport = config.UseTransport<RabbitMQTransport>();
             transport.ConnectionString("host=localhost");
             transport.UseConventionalRoutingTopology();
+            
+            var persistence = config.UsePersistence<SqlPersistence>();
+            var dialect = persistence.SqlDialect<SqlDialect.PostgreSql>();
+            dialect.JsonBParameterModifier(
+                modifier: parameter =>
+                {
+                    var npgsqlParameter = (NpgsqlParameter)parameter;
+                    npgsqlParameter.NpgsqlDbType = NpgsqlDbType.Jsonb;
+                });
+            persistence.ConnectionBuilder(
+                connectionBuilder: () => new NpgsqlConnection("Host=localhost;Username=db_user;Password=P@ssw0rd;Database=shipping_database"));
 
             var endpoint = await Endpoint.Start(config);
 
