@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NServiceBus;
-using Sales.Messages.Commands;
 
-namespace Website
+namespace Shipping
 {
     class Program
     {
         public static async Task Main()
         {
-            var config = new EndpointConfiguration("website");
+            var config = new EndpointConfiguration("shipping");
             config.EnableInstallers();
 
             var conventions = config.Conventions();
@@ -21,15 +20,9 @@ namespace Website
             transport.ConnectionString("host=localhost");
             transport.UseConventionalRoutingTopology();
 
-            var routing = transport.Routing();
-            routing.RouteToEndpoint(typeof(PlaceOrder).Assembly, "sales");
-
             var endpoint = await Endpoint.Start(config);
 
-            var message = new PlaceOrder() {OrderId = Guid.NewGuid().ToString() };
-            await endpoint.Send(message);
-
-            Console.WriteLine(" NServiceBus Website endpoint running.");
+            Console.WriteLine(" NServiceBus Shipping endpoint running.");
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
 
