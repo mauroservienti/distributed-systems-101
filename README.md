@@ -50,3 +50,36 @@ The default RabbitMQ credentials are:
 
 - Username: `guest`
 - Password: `guest`
+
+## Volume 1 - Messaging principles
+
+Volume 1 is composed by 4 lessons focused on messaging and their nuances.
+
+### Lesson 1 - Request/Response
+
+Lesson 1 is focused on basic messaging concepts, and why we need messaging in complex business software solutions. Samples are meant to demonstrate request/response patterns using C# and RabbitMQ. Lesson 1 is composed by the following samples:
+
+1. [Send a message](src/volume-01/req-resp/basic-send)
+2. [Request/Response](src/volume-01/req-resp/req-resp)
+3. [Request/multi-Response](src/volume-01/req-resp/req-multi-resp)
+
+### Lesson 2 - Publish/Subscribe
+
+Lesson 2 builds on top of lesson 1, evolving the messaging concepts into publish/subscribe using events bradcasting. Samples are meant to demonstrate publish/subscribe patterns using C# and RabbitMQ. Lesson 2 is composed by the following samples:
+
+1. [Publish/Subscribe](src/volume-01/pub-sub/basic-pub-sub)
+2. [Publish/multi-Subscribe](src/volume-01/pub-sub/pub-multi-sub)
+
+### Lesson 3 - Architectural concepts: commands and events
+
+Lesson 3 evolves lesson 2 by introducing arcitectural concepts like Commands and Events. It also introduces recoverability concepts. Samples are built using C#, NServiceBus, PostgreSQL, and RabbitMQ. Lesson 3 is composed by the following samples:
+
+1. [Commands and Pub/Sub using NServiceBus](src/volume-01/arch/cmd-events)
+2. Recoverability
+
+### Lesson 4 - Introduction to sagas
+
+Lesson 4 introduces coreography and long running business transactions concepts through the saga pattern. Samples are built using C#, NServiceBus, PostgreSQL, and RabbitMQ. Lesson 4 is composed by the following samples:
+
+1. Message ordering
+2. Delayed deliveries and timeouts
