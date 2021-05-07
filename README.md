@@ -75,7 +75,7 @@ Lesson 2 builds on top of lesson 1, evolving the messaging concepts into publish
 Lesson 3 evolves lesson 2 by introducing arcitectural concepts like Commands and Events. It also introduces recoverability concepts. Samples are built using C#, NServiceBus, PostgreSQL, and RabbitMQ. Lesson 3 is composed by the following samples:
 
 1. [Commands and Pub/Sub using NServiceBus](src/volume-01/arch/cmd-events)
-2. Recoverability
+2. [Recoverability](src/volume-01/arch/cmd-events-rec)
 
 ### Lesson 4 - Introduction to sagas
 
