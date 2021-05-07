@@ -81,5 +81,5 @@ Lesson 3 evolves lesson 2 by introducing architectural concepts like Commands an
 
 Lesson 4 introduces choreography and long running business transactions concepts through the saga pattern. Samples are built using C#, NServiceBus, PostgreSQL, and RabbitMQ. Lesson 4 is composed by the following samples:
 
-1. Message ordering
+1. [Basic saga](src/volume-01/sagas/basic-saga)
 2. Delayed deliveries and timeouts
