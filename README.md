@@ -48,5 +48,5 @@ Locate Visual Studio Code `Ports` tab. The tab by default shows four columns, `P
 
 The default RabbitMQ credentials are:
 
-- Username:`guest`
+- Username: `guest`
 - Password: `guest`
