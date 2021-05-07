@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Billing.Events\Billing.Events.csproj" />
+    <ProjectReference Include="..\Shipping.Events\Shipping.Events.csproj" />
     <ProjectReference Include="..\Warehouse.Events\Warehouse.Events.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Billing.Events;
 using NServiceBus;
+using Shipping.Events;
 using Warehouse.Events;
 
 namespace Shipping
@@ -18,12 +19,25 @@ namespace Shipping
 
         public Task Handle(PaymentAuthorized message, IMessageHandlerContext context)
         {
-            throw new System.NotImplementedException();
+            Data.IsPaymentAuthorized = true;
+            return VerifyStatus(context);
         }
 
         public Task Handle(OrderItemsCollected message, IMessageHandlerContext context)
         {
-            throw new System.NotImplementedException();
+            Data.AreOrderItemsCollected = true;
+            return VerifyStatus(context);
+        }
+        
+        private Task VerifyStatus(IMessageHandlerContext context)
+        {
+            if (Data.IsPaymentAuthorized && Data.AreOrderItemsCollected)
+            {
+                MarkAsComplete();
+                return context.Publish(new ShipmentReady() {OrderId = Data.OrderId});
+            }
+
+            return Task.CompletedTask;
         }
     }
 
