@@ -1,4 +1,4 @@
-# Demo 1 - Commands, Pub/Sub, and orchestrate using NServiceBus
+# Demo 2 - Commands, Pub/Sub, and recoverability using NServiceBus
 
 > Note:
 >
