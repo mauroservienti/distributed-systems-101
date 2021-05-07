@@ -4,7 +4,7 @@
 
 If your GitHub account is enabled to use [Codespaces](https://github.com/features/codespaces) you can open this repository directly in Codespaces. Otherwise the following requirements must be met in order to successfully run the demos:
 
-- [Visual Studio Code](https://code.visualstudio.com/) and the [Remote container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote)remote-containers).
+- [Visual Studio Code](https://code.visualstudio.com/) and the [Remote container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 - [Docker](https://www.docker.com/get-started) must be pre-installed on the machine.
 - The repository `devcontainer` setup requires `docker-compose` to be installed on the machine.
 
