@@ -33,7 +33,8 @@ namespace Shipping
         {
             if (Data.IsPaymentAuthorized && Data.AreOrderItemsCollected)
             {
-                MarkAsComplete();
+                //We wanna see data in the db during the demos
+                //MarkAsComplete();
                 return context.Publish(new ShipmentReady() {OrderId = Data.OrderId});
             }
 
