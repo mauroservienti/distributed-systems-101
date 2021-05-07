@@ -26,6 +26,9 @@ namespace Website
 
             var endpoint = await Endpoint.Start(config);
 
+            var message = new PlaceOrder() {OrderId = Guid.NewGuid().ToString() };
+            await endpoint.Send(message);
+
             Console.WriteLine(" NServiceBus Website endpoint running.");
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
