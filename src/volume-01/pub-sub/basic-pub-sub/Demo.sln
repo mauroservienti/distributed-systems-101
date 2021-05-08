@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "Website\Website.csproj", "{2ECE2E5F-2FD0-436F-9639-5BC4C20252B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "website\Website.csproj", "{2ECE2E5F-2FD0-436F-9639-5BC4C20252B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales", "Sales\Sales.csproj", "{12B9AFDC-A8F0-4D84-BC14-4F39292FA11C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales", "sales\Sales.csproj", "{12B9AFDC-A8F0-4D84-BC14-4F39292FA11C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billing", "billing\Billing.csproj", "{285C023E-F23D-467B-AE0F-194FE406920C}"
 EndProject
