@@ -51,3 +51,10 @@ services:
 
       volumes:
          - ./shipping-database-init.sql:/docker-entrypoint-initdb.d/shipping-database-init.sql
+
+   finance-database:
+      image: postgres
+      env_file: 
+         - finance-database.env
+
+      network_mode: service:rabbit

@@ -29,9 +29,9 @@ Wait for Visual Studio Code Remote container extension to:
 The repository `devcontainer` configuration will:
 
 - Create three container instances:
-  - A RabbitMQ instance with management plugin support
-  - A .NET 5 enabled container where the repository source code will be available
-  - A PostgreSQL instance (Used starting Volume 1/Lesson 4)
+  - One RabbitMQ instance with management plugin support
+  - One .NET 5 enabled container where the repository source code will be available
+  - Two PostgreSQL instances (Used starting Volume 1/Lesson 4)
 - Configure the VS Code remote instance with:
   - The C# extension (`ms-dotnettools.csharp`)
   - Bash as the default terminal
@@ -82,4 +82,4 @@ Lesson 3 evolves lesson 2 by introducing architectural concepts like Commands an
 Lesson 4 introduces choreography and long running business transactions concepts through the saga pattern. Samples are built using C#, NServiceBus, PostgreSQL, and RabbitMQ. Lesson 4 is composed by the following samples:
 
 1. [Basic saga](src/volume-01/sagas/basic-saga)
-2. Delayed deliveries and timeouts
+2. [Delayed deliveries and timeouts](src/volume-01/sagas/timeouts)

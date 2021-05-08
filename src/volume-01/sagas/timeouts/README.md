@@ -1,4 +1,4 @@
-# Demo 1 - Sagas using NServiceBus
+# Demo 2 - Timeouts using NServiceBus
 
 > Note:
 >
@@ -14,6 +14,10 @@ Using the Visual Studio Code terminal window (if none is present create a new on
 ## Start the Billing endpoint
 
 Using a new Visual Studio Code terminal window, navigate from the root of the repository to the `src/volume-01/sagas/basic-saga/billing` folder. Build the Billing project using the `dotnet build` command. Once the project is built run it using the `dotnet run` command.
+
+## Start the Finance endpoint
+
+Using a new Visual Studio Code terminal window, navigate from the root of the repository to the `src/volume-01/sagas/basic-saga/finance` folder. Build the Finance project using the `dotnet build` command. Once the project is built run it using the `dotnet run` command.
 
 ## Start the Warehouse endpoint
 
