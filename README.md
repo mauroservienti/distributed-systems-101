@@ -15,6 +15,7 @@ If your GitHub account is enabled to use [Codespaces](https://github.com/feature
 - Clone the repository
   - On Windows make sure to clone on short path, e.g. `c:\dev`, to avoid any "path too long" error
 - Open the root folder of the repository in Visual Studio Code
+- Make sure Docker is running
 - Open the Visual Studio Code command palette (`F1` on all supported operating systems, for more information on VS Code keyboard shortcuts refer to [this page](https://www.arungudelli.com/microsoft/visual-studio-code-keyboard-shortcut-cheat-sheet-windows-mac-linux/))
 - Type `Reopen in Container`, the command palette supports auto-completion, the command should be available by typing `reop`
 
