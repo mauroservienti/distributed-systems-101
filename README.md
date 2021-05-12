@@ -48,10 +48,27 @@ Locate Visual Studio Code `Ports` tab. The tab by default shows four columns, `P
 - Hover the located row with the mouse and click on the `Open in Browser` icon in the `Local Address` column.
 - A new browser tab is opened and the RabbitMQ management page is displayed.
 
+The following section contains connection information details.
+
+## Containers connection information
+
 The default RabbitMQ credentials are:
 
 - Username: `guest`
 - Password: `guest`
+
+It is possible to connect to the PostgreSQL instances using the configured PostgreSQL extension, use the following paramters to configure connections to the Shipping and the Finance databases:
+
+- Shipping database
+  - Host: `localhost`
+  - Port: `5432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
+- Finance database
+  - Host: `localhost`
+  - Port: `6432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
 
 ## Volume 1 - Messaging principles
 
