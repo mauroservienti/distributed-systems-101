@@ -15,6 +15,8 @@ If your GitHub account is enabled to use [Codespaces](https://github.com/feature
 - Clone the repository
   - On Windows make sure to clone on short path, e.g. `c:\dev`, to avoid any "path too long" error
 - Open the root folder of the repository in Visual Studio Code
+- Make sure Docker is running
+  - If you're using Docker for Windows with Hyper-V make sure that the cloned folder, or a parent folder, is mapped in Docker
 - Open the Visual Studio Code command palette (`F1` on all supported operating systems, for more information on VS Code keyboard shortcuts refer to [this page](https://www.arungudelli.com/microsoft/visual-studio-code-keyboard-shortcut-cheat-sheet-windows-mac-linux/))
 - Type `Reopen in Container`, the command palette supports auto-completion, the command should be available by typing `reop`
 
@@ -46,10 +48,27 @@ Locate Visual Studio Code `Ports` tab. The tab by default shows four columns, `P
 - Hover the located row with the mouse and click on the `Open in Browser` icon in the `Local Address` column.
 - A new browser tab is opened and the RabbitMQ management page is displayed.
 
+The following section contains connection information details.
+
+## Containers connection information
+
 The default RabbitMQ credentials are:
 
 - Username: `guest`
 - Password: `guest`
+
+It is possible to connect to the PostgreSQL instances using the configured PostgreSQL extension, use the following paramters to configure connections to the Shipping and the Finance databases:
+
+- Shipping database
+  - Host: `localhost`
+  - Port: `5432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
+- Finance database
+  - Host: `localhost`
+  - Port: `6432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
 
 ## Volume 1 - Messaging principles
 
