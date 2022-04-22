@@ -58,3 +58,31 @@ services:
          - finance-database.env
 
       network_mode: service:rabbit
+
+   marketing-database-vol2:
+      image: postgres
+      env_file: 
+         - marketing-database-vol2.env
+
+      network_mode: service:rabbit
+
+   shipping-database-vol2:
+      image: postgres
+      env_file: 
+         - shipping-database-vol2.env
+
+      network_mode: service:rabbit
+
+   sales-database-vol2:
+      image: postgres
+      env_file: 
+         - sales-database-vol2.env
+
+      network_mode: service:rabbit
+
+   warehouse-database-vol2:
+      image: postgres
+      env_file: 
+         - warehouse-database-vol2.env
+
+      network_mode: service:rabbit
