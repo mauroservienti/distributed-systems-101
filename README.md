@@ -102,3 +102,11 @@ Lesson 4 introduces choreography and long running business transactions concepts
 
 1. [Basic saga](src/volume-01/sagas/basic-saga)
 2. [Delayed deliveries and timeouts](src/volume-01/sagas/timeouts)
+
+## Volume 2 - Service Oriented Architecture
+
+### Lesson 1 & 2 - data/behavior modelling and ViewModel Composition
+
+### Lesson 3 - Writing data - data de-composition
+
+### Lesson 4 - Long running business transactions (sagas)
