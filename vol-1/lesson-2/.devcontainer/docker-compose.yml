@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-   volume-01-demos:
+   vol-1-lesson-2-demos:
       build: 
          context: .
          dockerfile: Dockerfile
@@ -41,20 +41,3 @@ services:
       ports:
          - "5672:5672"
          - "15672:15672"
-   
-   shipping-database:
-      image: postgres
-      env_file: 
-         - shipping-database.env
-
-      network_mode: service:rabbit
-
-      volumes:
-         - ./shipping-database-init.sql:/docker-entrypoint-initdb.d/shipping-database-init.sql
-
-   finance-database:
-      image: postgres
-      env_file: 
-         - finance-database.env
-
-      network_mode: service:rabbit
