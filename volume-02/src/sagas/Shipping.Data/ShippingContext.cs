@@ -21,7 +21,7 @@ namespace Shipping.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=shipping_database_vol2");
+            optionsBuilder.UseNpgsql(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=shipping_database");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

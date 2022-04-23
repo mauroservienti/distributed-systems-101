@@ -12,7 +12,7 @@ namespace Shipping.Service
             Console.Title = serviceName;
 
             var config = new EndpointConfiguration(serviceName);
-            config.ApplyCommonConfigurationWithPersistence(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=shipping_database_vol2");
+            config.ApplyCommonConfigurationWithPersistence(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=shipping_database");
 
             config.ReportCustomChecksTo(serviceControlQueue: "Particular.ServiceControl");
             var recoverabilityConfig = config.Recoverability();
