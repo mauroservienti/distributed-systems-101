@@ -5,92 +5,92 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "sagas/Marketing.Api",
+            "name": "Marketing.Api",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Marketing.Api/bin/Debug/net6.0/Marketing.Api.dll",
+            "program": "${workspaceFolder}/src/Marketing.Api/bin/Debug/net6.0/Marketing.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Marketing.Api",
+            "cwd": "${workspaceFolder}/src/Marketing.Api",
             "stopAtEntry": false,
             "console": "internalConsole",
         },
         {
-            "name": "sagas/Marketing.Service",
+            "name": "Marketing.Service",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Marketing.Service/bin/Debug/net6.0/Marketing.Service.dll",
+            "program": "${workspaceFolder}/src/Marketing.Service/bin/Debug/net6.0/Marketing.Service.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Marketing.Service",
+            "cwd": "${workspaceFolder}/src/Marketing.Service",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/Sales.Api",
+            "name": "Sales.Api",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Sales.Api/bin/Debug/net6.0/Sales.Api.dll",
+            "program": "${workspaceFolder}/src/Sales.Api/bin/Debug/net6.0/Sales.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Sales.Api",
+            "cwd": "${workspaceFolder}/src/Sales.Api",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/Sales.Service",
+            "name": "Sales.Service",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Sales.Service/bin/Debug/net6.0/Sales.Service.dll",
+            "program": "${workspaceFolder}/src/Sales.Service/bin/Debug/net6.0/Sales.Service.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Sales.Service",
+            "cwd": "${workspaceFolder}/src/Sales.Service",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/Shipping.Api",
+            "name": "Shipping.Api",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Shipping.Api/bin/Debug/net6.0/Shipping.Api.dll",
+            "program": "${workspaceFolder}/src/Shipping.Api/bin/Debug/net6.0/Shipping.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Shipping.Api",
+            "cwd": "${workspaceFolder}/src/Shipping.Api",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/Shipping.Service",
+            "name": "Shipping.Service",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Shipping.Service/bin/Debug/net6.0/Shipping.Service.dll",
+            "program": "${workspaceFolder}/src/Shipping.Service/bin/Debug/net6.0/Shipping.Service.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Shipping.Service",
+            "cwd": "${workspaceFolder}/src/Shipping.Service",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/Warehouse.Api",
+            "name": "Warehouse.Api",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Warehouse.Api/bin/Debug/net6.0/Warehouse.Api.dll",
+            "program": "${workspaceFolder}/src/Warehouse.Api/bin/Debug/net6.0/Warehouse.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Warehouse.Api",
+            "cwd": "${workspaceFolder}/src/Warehouse.Api",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/Warehouse.Service",
+            "name": "Warehouse.Service",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/Warehouse.Service/bin/Debug/net6.0/Warehouse.Service.dll",
+            "program": "${workspaceFolder}/src/Warehouse.Service/bin/Debug/net6.0/Warehouse.Service.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/Warehouse.Service",
+            "cwd": "${workspaceFolder}/src/Warehouse.Service",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
         {
-            "name": "sagas/WebApp",
+            "name": "WebApp",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/sagas/WebApp/bin/Debug/net6.0/WebApp.dll",
+            "program": "${workspaceFolder}/src/WebApp/bin/Debug/net6.0/WebApp.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/sagas/WebApp",
+            "cwd": "${workspaceFolder}/src/WebApp",
             "stopAtEntry": false,
             "console": "internalConsole",
             "internalConsoleOptions": "openOnSessionStart",
@@ -112,7 +112,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/src/sagas/WebApp/Views"
+                "/Views": "${workspaceFolder}/src/WebApp/Views"
             }
         },
     ],
@@ -121,15 +121,15 @@
             "name": "Vol. 2 - Sagas",
             "preLaunchTask": "build-sagas",
             "configurations": [
-                "sagas/Marketing.Api", 
-                "sagas/Marketing.Service",
-                "sagas/Sales.Api", 
-                "sagas/Sales.Service",
-                "sagas/Shipping.Api", 
-                "sagas/Shipping.Service",
-                "sagas/Warehouse.Api", 
-                "sagas/Warehouse.Service",
-                "sagas/WebApp"]
+                "Marketing.Api", 
+                "Marketing.Service",
+                "Sales.Api", 
+                "Sales.Service",
+                "Shipping.Api", 
+                "Shipping.Service",
+                "Warehouse.Api", 
+                "Warehouse.Service",
+                "WebApp"]
         }
     ]
 }
