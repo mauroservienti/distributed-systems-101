@@ -16,7 +16,7 @@ namespace Warehouse.Service
 
             var endpointInstance = await Endpoint.Start(config);
 
-            Console.WriteLine($"{serviceName} sarted. Press any key to stop.");
+            Console.WriteLine($"{serviceName} started. Press any key to stop.");
             Console.ReadLine();
 
             await endpointInstance.Stop();
