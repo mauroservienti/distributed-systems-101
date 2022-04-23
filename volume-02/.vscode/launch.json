@@ -5,17 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Sagas-Marketing.Api",
+            "name": "sagas/Marketing.Api",
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceFolder}/src/sagas/Marketing.Api/bin/Debug/net6.0/Marketing.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/sagas/Marketing.Api",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "internalConsole",
         },
         {
-            "name": "Sagas-Marketing.Service",
+            "name": "sagas/Marketing.Service",
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceFolder}/src/sagas/Marketing.Service/bin/Debug/net6.0/Marketing.Service.dll",
@@ -24,14 +24,112 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         },
+        {
+            "name": "sagas/Sales.Api",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/Sales.Api/bin/Debug/net6.0/Sales.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/Sales.Api",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "sagas/Sales.Service",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/Sales.Service/bin/Debug/net6.0/Sales.Service.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/Sales.Service",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "sagas/Shipping.Api",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/Shipping.Api/bin/Debug/net6.0/Shipping.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/Shipping.Api",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "sagas/Shipping.Service",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/Shipping.Service/bin/Debug/net6.0/Shipping.Service.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/Shipping.Service",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "sagas/Warehouse.Api",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/Warehouse.Api/bin/Debug/net6.0/Warehouse.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/Warehouse.Api",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "sagas/Warehouse.Service",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/Warehouse.Service/bin/Debug/net6.0/Warehouse.Service.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/Warehouse.Service",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "sagas/WebApp",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sagas/WebApp/bin/Debug/net6.0/WebApp.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sagas/WebApp",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/src/sagas/WebApp/Views"
+            }
+        },
     ],
     "compounds": [
         {
-            "name": "Volume 2 - Sagas",
+            "name": "Vol. 2 - Sagas",
             "preLaunchTask": "build-sagas",
             "configurations": [
-                "Sagas-Marketing.Api", 
-                "Sagas-Marketing.Service"]
+                "sagas/Marketing.Api", 
+                "sagas/Marketing.Service",
+                "sagas/Sales.Api", 
+                "sagas/Sales.Service",
+                "sagas/Shipping.Api", 
+                "sagas/Shipping.Service",
+                "sagas/Warehouse.Api", 
+                "sagas/Warehouse.Service",
+                "sagas/WebApp"]
         }
     ]
 }
