@@ -1,12 +1,27 @@
 version: 2
 updates:
 - package-ecosystem: nuget
-  directory: "/volume-01/src"
+  directory: "/vol-01/lesson-1/src"
   schedule:
     interval: daily
     time: '04:00'
 - package-ecosystem: nuget
-  directory: "/volume-02/src"
+  directory: "/vol-01/lesson-2/src"
+  schedule:
+    interval: daily
+    time: '04:00'
+- package-ecosystem: nuget
+  directory: "/vol-01/lesson-3/src"
+  schedule:
+    interval: daily
+    time: '04:00'
+- package-ecosystem: nuget
+  directory: "/vol-01/lesson-4/src"
+  schedule:
+    interval: daily
+    time: '04:00'
+- package-ecosystem: nuget
+  directory: "/vol-02/lesson-4/src"
   schedule:
     interval: daily
     time: '04:00'
