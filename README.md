@@ -2,7 +2,7 @@
 
 ## Requirements
 
-If your GitHub account is enabled to use [Codespaces](https://github.com/features/codespaces) you can open this repository directly in Codespaces. Otherwise the following requirements must be met in order to successfully run the demos:
+The following requirements must be met in order to successfully run the demos:
 
 - [Visual Studio Code](https://code.visualstudio.com/) and the [Remote container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 - [Docker](https://www.docker.com/get-started) must be pre-installed on the machine.
@@ -14,7 +14,7 @@ If your GitHub account is enabled to use [Codespaces](https://github.com/feature
 
 - Clone the repository
   - On Windows make sure to clone on short path, e.g. `c:\dev`, to avoid any "path too long" error
-- Open the root folder of the repository in Visual Studio Code
+- Open one of the `volume-*` folders in Visual Studio Code
 - Make sure Docker is running
   - If you're using Docker for Windows with Hyper-V make sure that the cloned folder, or a parent folder, is mapped in Docker
 - Open the Visual Studio Code command palette (`F1` on all supported operating systems, for more information on VS Code keyboard shortcuts refer to [this page](https://www.arungudelli.com/microsoft/visual-studio-code-keyboard-shortcut-cheat-sheet-windows-mac-linux/))
@@ -102,3 +102,11 @@ Lesson 4 introduces choreography and long running business transactions concepts
 
 1. [Basic saga](src/volume-01/sagas/basic-saga)
 2. [Delayed deliveries and timeouts](src/volume-01/sagas/timeouts)
+
+## Volume 2 - Service Oriented Architecture
+
+### Lesson 1 & 2 - data/behavior modelling and ViewModel Composition
+
+### Lesson 3 - Writing data - data de-composition
+
+### Lesson 4 - Long running business transactions (sagas)

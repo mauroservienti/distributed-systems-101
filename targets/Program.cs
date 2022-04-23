@@ -8,15 +8,15 @@ internal class Program
     {
         var sdk = new DotnetSdkManager();
 
-        Target("default", DependsOn("test"));
+        Target("default", DependsOn("volume-01", "volume-02"));
 
-        Target("build",
-            Directory.EnumerateFiles("src", "*.sln", SearchOption.AllDirectories),
+        Target("volume-01",
+            Directory.EnumerateFiles("vol-1", "*.sln", SearchOption.AllDirectories),
             solution => Run(sdk.GetDotnetCliPath(), $"build \"{solution}\" --configuration Release"));
 
-        Target("test", DependsOn("build"),
-            Directory.EnumerateFiles("src", "*Tests.csproj", SearchOption.AllDirectories),
-            proj => Run(sdk.GetDotnetCliPath(), $"test \"{proj}\" --configuration Release --no-build"));
+	  Target("volume-02",
+            Directory.EnumerateFiles("vol-2", "*.sln", SearchOption.AllDirectories),
+            solution => Run(sdk.GetDotnetCliPath(), $"build \"{solution}\" --configuration Release"));
         
         RunTargetsAndExit(args);
     }
