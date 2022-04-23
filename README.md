@@ -10,11 +10,9 @@ The following requirements must be met in order to successfully run the demos:
 
 ## How to configure Visual Studio Code to run the demos
 
-> The following steps are required if you're not using Codespaces
-
 - Clone the repository
   - On Windows make sure to clone on short path, e.g. `c:\dev`, to avoid any "path too long" error
-- Open one of the `volume-*` folders in Visual Studio Code
+- Open one of the lessons folder (`vol-*/lesson-*`) in Visual Studio Code
 - Make sure Docker is running
   - If you're using Docker for Windows with Hyper-V make sure that the cloned folder, or a parent folder, is mapped in Docker
 - Open the Visual Studio Code command palette (`F1` on all supported operating systems, for more information on VS Code keyboard shortcuts refer to [this page](https://www.arungudelli.com/microsoft/visual-studio-code-keyboard-shortcut-cheat-sheet-windows-mac-linux/))
@@ -30,10 +28,10 @@ Wait for Visual Studio Code Remote container extension to:
 
 The repository `devcontainer` configuration will:
 
-- Create three container instances:
+- One or more container instances:
   - One RabbitMQ instance with management plugin support
-  - One .NET 5 enabled container where the repository source code will be available
-  - Two PostgreSQL instances (Used starting Volume 1/Lesson 4)
+  - One .NET 6 enabled container where the repository source code will be mapped
+  - Depending on the chosen lesson, a one or more PostgreSQL instances
 - Configure the VS Code remote instance with:
   - The C# extension (`ms-dotnettools.csharp`)
   - Bash as the default terminal
@@ -57,16 +55,41 @@ The default RabbitMQ credentials are:
 - Username: `guest`
 - Password: `guest`
 
-It is possible to connect to the PostgreSQL instances using the configured PostgreSQL extension, use the following paramters to configure connections to the Shipping and the Finance databases:
+It is possible to connect to the PostgreSQL instances using the configured PostgreSQL extension, use the following parameters to configure connections to the Shipping and the Finance databases:
 
-- Shipping database
+### Volume 1
+
+- Shipping instance
   - Host: `localhost`
   - Port: `5432`
   - User: `db_user`
   - Password: `P@ssw0rd`
-- Finance database
+- Finance instance
   - Host: `localhost`
   - Port: `6432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
+
+### Volume 2
+
+- marketing instance
+  - Host: `localhost`
+  - Port: `5432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
+- sales instance
+  - Host: `localhost`
+  - Port: `6432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
+- shipping instance
+  - Host: `localhost`
+  - Port: `7432`
+  - User: `db_user`
+  - Password: `P@ssw0rd`
+- warehouse instance
+  - Host: `localhost`
+  - Port: `8432`
   - User: `db_user`
   - Password: `P@ssw0rd`
 
