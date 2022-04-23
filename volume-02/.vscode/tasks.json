@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "build-sagas",
-            "command": "dotnet build ${workspaceFolder}/src/volume-02/sagas/Demo.sln",
+            "command": "dotnet build ${workspaceFolder}/src/sagas/Demo.sln",
             "type": "shell",
             "group": "build",
             "presentation": {

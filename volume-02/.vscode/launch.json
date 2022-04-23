@@ -8,9 +8,9 @@
             "name": "Sagas-Marketing.Api",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/volume-02/sagas/Marketing.Api/bin/Debug/net6.0/Marketing.Api.dll",
+            "program": "${workspaceFolder}/src/sagas/Marketing.Api/bin/Debug/net6.0/Marketing.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/volume-02/sagas/Marketing.Api",
+            "cwd": "${workspaceFolder}/src/sagas/Marketing.Api",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
@@ -18,9 +18,9 @@
             "name": "Sagas-Marketing.Service",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/volume-02/sagas/Marketing.Service/bin/Debug/net6.0/Marketing.Service.dll",
+            "program": "${workspaceFolder}/src/sagas/Marketing.Service/bin/Debug/net6.0/Marketing.Service.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/volume-02/sagas/Marketing.Service",
+            "cwd": "${workspaceFolder}/src/sagas/Marketing.Service",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
