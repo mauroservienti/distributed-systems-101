@@ -118,8 +118,21 @@
     ],
     "compounds": [
         {
-            "name": "Vol. 2 - Sagas",
-            "preLaunchTask": "build-sagas",
+            "name": "Vol. 2 - Sagas (build)",
+            "preLaunchTask": "build",
+            "configurations": [
+                "Marketing.Api", 
+                "Marketing.Service",
+                "Sales.Api", 
+                "Sales.Service",
+                "Shipping.Api", 
+                "Shipping.Service",
+                "Warehouse.Api", 
+                "Warehouse.Service",
+                "WebApp"]
+        },
+        {
+            "name": "Vol. 2 - Sagas (no build)",
             "configurations": [
                 "Marketing.Api", 
                 "Marketing.Service",
