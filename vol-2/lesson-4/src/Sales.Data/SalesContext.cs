@@ -5,15 +5,7 @@ namespace Sales.Data
 {
     public class SalesContext : DbContext
     {
-        public static SalesContext Create()
-        {
-            var db = new SalesContext();
-            db.Database.EnsureCreated();
-
-            return db;
-        }
-
-        private SalesContext() { }
+        public SalesContext() { }
 
         public DbSet<ProductPrice> ProductsPrices { get; set; }
 
@@ -21,7 +13,7 @@ namespace Sales.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=sales_database");
+            optionsBuilder.UseNpgsql(@"Host=localhost;Port=6432;Username=db_user;Password=P@ssw0rd;Database=sales_database");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -5,15 +5,7 @@ namespace Shipping.Data
 {
     public class ShippingContext : DbContext
     {
-        public static ShippingContext Create()
-        {
-            var db = new ShippingContext();
-            db.Database.EnsureCreated();
-
-            return db;
-        }
-
-        private ShippingContext() { }
+        public ShippingContext() { }
 
         public DbSet<ProductShippingOptions> ProductShippingOptions { get; set; }
 
@@ -21,7 +13,7 @@ namespace Shipping.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=shipping_database");
+            optionsBuilder.UseNpgsql(@"Host=localhost;Port=7432;Username=db_user;Password=P@ssw0rd;Database=shipping_database");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -5,15 +5,7 @@ namespace Warehouse.Data
 {
     public class WarehouseContext : DbContext
     {
-        public static WarehouseContext Create()
-        {
-            var db = new WarehouseContext();
-            db.Database.EnsureCreated();
-
-            return db;
-        }
-
-        private WarehouseContext() { }
+        public WarehouseContext() { }
 
         public DbSet<StockItem> StockItems { get; set; }
 
@@ -21,7 +13,7 @@ namespace Warehouse.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=warehouse_database");
+            optionsBuilder.UseNpgsql(@"Host=localhost;Port=8432;Username=db_user;Password=P@ssw0rd;Database=warehouse_database");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

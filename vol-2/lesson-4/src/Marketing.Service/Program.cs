@@ -12,7 +12,7 @@ namespace Marketing.Service
             Console.Title = serviceName!;
 
             var config = new EndpointConfiguration(serviceName);
-            config.ApplyCommonConfigurationWithPersistence(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=marketing_database");
+            config.ApplyCommonConfigurationWithPersistence(@"Host=localhost;Port=5432;Username=db_user;Password=P@ssw0rd;Database=marketing_database");
 
             var endpointInstance = await Endpoint.Start(config);
 

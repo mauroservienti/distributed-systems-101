@@ -7,6 +7,8 @@ namespace NServiceBus
     {
         public static void ApplyCommonConfiguration(this EndpointConfiguration config) 
         {
+            config.EnableInstallers();
+
             config.AuditProcessedMessagesTo("audit");
             config.SendFailedMessagesTo("error");
 
@@ -24,8 +26,6 @@ namespace NServiceBus
         public static void ApplyCommonConfigurationWithPersistence(this EndpointConfiguration config, string sqlPersistenceConnectionString)
         {
             ApplyCommonConfiguration(config);
-
-            config.EnableInstallers();
 
             var persistence = config.UsePersistence<SqlPersistence>();
             

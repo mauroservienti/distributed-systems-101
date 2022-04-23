@@ -1,25 +1,19 @@
 ﻿using Marketing.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Marketing.Data
 {
     public class MarketingContext : DbContext
     {
-        public static MarketingContext Create()
-        {
-            var db = new MarketingContext();
-            db.Database.EnsureCreated();
-
-            return db;
-        }
-
-        private MarketingContext() { }
+        public MarketingContext() { }
 
         public DbSet<ProductDetails> ProductsDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(@"Host=localhost;Username=db_user;Password=P@ssw0rd;Database=marketing_database");
+            optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Username=db_user;Password=P@ssw0rd;Database=marketing_database");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
