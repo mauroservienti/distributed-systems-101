@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-sagas",
+            "label": "build solution",
             "command": "dotnet build ${workspaceFolder}/src/Demo.sln",
             "type": "shell",
             "group": "build",
@@ -10,6 +10,22 @@
                 "reveal": "silent"
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "create databases",
+            "command": "dotnet run --project ${workspaceFolder}/src/CreateRequiredDatabases/CreateRequiredDatabases.csproj",
+            "type": "shell",
+            "group": "none",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build",
+            "group": "build",
+            "dependsOn": ["build solution", "create databases"],
+            "dependsOrder": "sequence"
         }
     ]
 }
