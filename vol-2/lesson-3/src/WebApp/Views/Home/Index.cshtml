@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="jumbotron">
+    <h1>Available products</h1>
+
+    <ul>
+        @foreach (var item in Model.AvailableProducts)
+        {
+            <li>
+                <h3><a href="/products/details/@item.Id">@item.ProductName</a></h3>
+                <h4>@item.ProductDescription</h4>
+                <div>Price @item.ProductPrice $</div>
+            </li>
+        }
+    </ul>
+</div>

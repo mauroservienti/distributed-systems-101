@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Shopping Cart";
+}
+<div class="jumbotron">
+    <h1>Shopping Cart</h1>
+    @if (Model.CartItems.Count == 0)
+    {
+        <h3>Your cart is empty.</h3>
+    }
+    else
+    {
+        <ul>
+            @foreach (var item in Model.CartItems)
+            {
+            <li>
+                <h3><a href="/products/details/@item.ProductId">@item.ProductName</a></h3>
+                <h5>@item.ProductDescription</h5>
+                <h4>Q.ty: @item.Quantity, Item $ @item.CurrentPrice, Total $ @item.TotalPrice</h4>
+                <h4>Shipping estimate: @item.DeliveryEstimate</h4>
+                <h4>Availability: @item.Inventory</h4>
+            </li>
+            }
+        </ul>
+    }
+</div>
