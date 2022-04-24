@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Colorful.Console" Version="1.2.15" />
+    <PackageReference Include="NServiceBus" Version="7.7.2" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NServiceBus.Shared\NServiceBus.Shared.csproj" />
+    <ProjectReference Include="..\Sales.Data\Sales.Data.csproj" />
+    <ProjectReference Include="..\Sales.Messages\Sales.Messages.csproj" />
+  </ItemGroup>
+
+</Project>
