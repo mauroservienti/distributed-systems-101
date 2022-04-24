@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = Model.ProductName;
+}
+<div class="jumbotron">
+        <h1>@Model.ProductName</h1>
+        <h2>@Model.ProductDescription</h2>
+        <h3>Price: @Model.ProductPrice $</h3>
+        <h3>
+            @if (Model.ProductOutOfStock)
+            {
+                <span class="label label-danger">Out of stock</span>
+            }
+            else
+            {
+                <span class="label label-success">@Model.ProductInventory item(s) left in stock.</span>
+            }
+        </h3>
+        <h4>
+            Shipping: @Model.ProductShippingOptions
+        </h4>
+</div>

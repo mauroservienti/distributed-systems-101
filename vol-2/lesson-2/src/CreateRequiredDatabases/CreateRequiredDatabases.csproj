@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Marketing.Data\Marketing.Data.csproj" />
+      <ProjectReference Include="..\Sales.Data\Sales.Data.csproj" />
+      <ProjectReference Include="..\Shipping.Data\Shipping.Data.csproj" />
+      <ProjectReference Include="..\Warehouse.Data\Warehouse.Data.csproj" />
+    </ItemGroup>
+
+</Project>
