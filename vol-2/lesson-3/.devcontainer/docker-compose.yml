@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-   lesson-04-demos:
+   lesson-03-demos:
       build: 
          context: .
          dockerfile: Dockerfile
