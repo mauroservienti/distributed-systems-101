@@ -118,7 +118,7 @@
     ],
     "compounds": [
         {
-            "name": "Vol. 2 - Sagas (build)",
+            "name": "Lesson 4 - (build)",
             "preLaunchTask": "build",
             "configurations": [
                 "Marketing.Api", 
@@ -132,7 +132,7 @@
                 "WebApp"]
         },
         {
-            "name": "Vol. 2 - Sagas (no build)",
+            "name": "Lesson 4 - (no build)",
             "configurations": [
                 "Marketing.Api", 
                 "Marketing.Service",
