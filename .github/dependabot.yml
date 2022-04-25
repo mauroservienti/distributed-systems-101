@@ -1,7 +1,7 @@
 version: 2
 updates:
 - package-ecosystem: nuget
-  directory: "/vol-01/lesson-1/src"
+  directory: "/vol-01/lesson-1/src/basic-send"
   schedule:
     interval: daily
     time: '04:00'
