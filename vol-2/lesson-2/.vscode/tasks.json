@@ -24,7 +24,7 @@
         {
             "label": "Build & create databases",
             "group": "build",
-            "dependsOn": ["build solution", "create databases"],
+            "dependsOn": ["Build solution", "Create databases"],
             "dependsOrder": "sequence"
         }
     ]
