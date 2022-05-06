@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build solution",
+            "label": "Build solution",
             "command": "dotnet build ${workspaceFolder}/src/Demo.sln",
             "type": "shell",
             "group": "build",
@@ -12,7 +12,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "create databases",
+            "label": "Create databases",
             "command": "dotnet run --project ${workspaceFolder}/src/CreateRequiredDatabases/CreateRequiredDatabases.csproj",
             "type": "shell",
             "group": "none",
@@ -22,7 +22,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build",
+            "label": "Build & create databases",
             "group": "build",
             "dependsOn": ["build solution", "create databases"],
             "dependsOrder": "sequence"
