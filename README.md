@@ -4,7 +4,7 @@
 
 The following requirements must be met in order to successfully run the demos:
 
-- [Visual Studio Code](https://code.visualstudio.com/) and the [Remote container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+- [Visual Studio Code](https://code.visualstudio.com/) and the [Dev containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 - [Docker](https://www.docker.com/get-started) must be pre-installed on the machine.
 - The repository `devcontainer` setup requires `docker-compose` to be installed on the machine.
 
@@ -18,7 +18,7 @@ The following requirements must be met in order to successfully run the demos:
 - Open the Visual Studio Code command palette (`F1` on all supported operating systems, for more information on VS Code keyboard shortcuts refer to [this page](https://www.arungudelli.com/microsoft/visual-studio-code-keyboard-shortcut-cheat-sheet-windows-mac-linux/))
 - Type `Reopen in Container`, the command palette supports auto-completion, the command should be available by typing `reop`
 
-Wait for Visual Studio Code Remote container extension to:
+Wait for Visual Studio Code Dev containers extension to:
 
 - download the required container images
 - configure the docker environment
