@@ -38,7 +38,7 @@ namespace Website
                 await Task.Delay(1000);
             }
 
-            await endpoint.Stop();
+            //await endpoint.Stop();
         }
     }
 }
