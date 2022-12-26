@@ -5,20 +5,14 @@ using static SimpleExec.Command;
 
 internal class Program
 {
-    public async static Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var sdk = new DotnetSdkManager();
         var dotnet = await sdk.GetDotnetCliPath();
 
-        Target("default", DependsOn("volume-01", "volume-02"));
-
-        Target("volume-01",
-            Directory.EnumerateFiles("vol-1", "*.sln", SearchOption.AllDirectories),
+        Target("default",
+            Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories),
             solution => Run(dotnet, $"build \"{solution}\" --configuration Release"));
-
-        Target("volume-02",
-              Directory.EnumerateFiles("vol-2", "*.sln", SearchOption.AllDirectories),
-              solution => Run(dotnet, $"build \"{solution}\" --configuration Release"));
 
         await RunTargetsAndExitAsync(args);
     }
