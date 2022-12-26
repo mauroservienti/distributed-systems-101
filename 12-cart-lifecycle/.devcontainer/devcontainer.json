@@ -1,5 +1,5 @@
 {
-	"name": "Distributed Systems 101 - Volume 2 - Lesson 4 (Sagas)",
+	"name": "Distributed Systems 101 - Shopping Cart lifecycle Saga",
 	"dockerComposeFile": "docker-compose.yml",
 	"forwardPorts": [ 4369, 5671, 5672, 15671, 15672, 25672, 5432, 6432 ],
 	"service": "lesson-04-demos",

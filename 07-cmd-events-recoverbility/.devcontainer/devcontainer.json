@@ -1,5 +1,5 @@
 {
-	"name": "Distributed Systems 101 - Volume 1",
+	"name": "Distributed Systems 101 - Recoverability",
 	"dockerComposeFile": "docker-compose.yml",
 	"forwardPorts": [ 4369, 5671, 5672, 15671, 15672, 25672, 5432, 6432 ],
 	"service": "vol-1-lesson-3-demos",
