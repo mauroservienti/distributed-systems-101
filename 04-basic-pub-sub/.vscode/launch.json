@@ -1,0 +1,55 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "billing",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/billing/bin/Debug/net6.0/billing.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/billing",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+        },
+        {
+            "name": "sales",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/sales/bin/Debug/net6.0/sales.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/sales",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+        },
+        {
+            "name": "website",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/website/bin/Debug/net6.0/website.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/website",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Pub/Sub - (build)",
+            "preLaunchTask": "build",
+            "configurations": [
+                "sales",
+                "billing",
+                "website"]
+        },
+        {
+            "name": "Pub/Sub - (no build)",
+            "configurations": [
+                "sales",
+                "billing",
+                "website"]
+        }
+    ]
+}
