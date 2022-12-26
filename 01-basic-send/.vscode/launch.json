@@ -48,14 +48,14 @@
     ],
     "compounds": [
         {
-            "name": "Sane/Receive - (build)",
+            "name": "Sand/Receive - (build)",
             "preLaunchTask": "build",
             "configurations": [
                 "sales",
                 "website"]
         },
         {
-            "name": "Sane/Receive - (no build)",
+            "name": "Sand/Receive - (no build)",
             "configurations": [
                 "sales",
                 "website"]
