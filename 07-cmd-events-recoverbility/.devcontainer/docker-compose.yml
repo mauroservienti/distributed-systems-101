@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  demo:
+    image: mcr.microsoft.com/devcontainers/dotnet:6.0
+    volumes:
+      - ../..:/workspaces:cached
+    network_mode: service:rabbit
+    command: sleep infinity
+     
+  rabbit:
+    image: rabbitmq:3.10-management
+    restart: unless-stopped
+    hostname: rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  shipping-database:
+    image: postgres
+    env_file: 
+      - shipping-database.env
+    network_mode: service:rabbit
+    volumes:
+      - ./shipping-database-init.sql:/docker-entrypoint-initdb.d/shipping-database-init.sql
