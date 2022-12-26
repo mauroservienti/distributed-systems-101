@@ -9,7 +9,7 @@ class Program
     {
         Target("default",
             Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories),
-            solution => Run( $"dotnet build \"{solution}\" --configuration Release"));
+            solution => Run("dotnet", $"build \"{solution}\" --configuration Release"));
 
         await RunTargetsAndExitAsync(args);
     }
