@@ -32,3 +32,6 @@ x86/
 # Rider cache/options directory
 .idea/
 .run
+
+# macOS garbage
+.DS_Store
