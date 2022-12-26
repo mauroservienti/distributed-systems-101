@@ -32,7 +32,7 @@ services:
    # (Adding the "ports" property to this file will not forward from a Codespace.)
 
    rabbit:
-      image: rabbitmq:3.8-management
+      image: rabbitmq:3.10-management
       restart: unless-stopped
       hostname: rabbit
       environment:
