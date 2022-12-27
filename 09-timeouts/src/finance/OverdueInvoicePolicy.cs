@@ -37,8 +37,9 @@ namespace Finance
 
         public Task Handle(InvoicePaid message, IMessageHandlerContext context)
         {
-            //We wanna see data in the db during the demos
-            //MarkAsComplete();
+            Console.WriteLine($"Invoice {Data.InvoiceNumber} paid. Saga complete.");
+            //Comment to look at data in the db during the demos
+            MarkAsComplete();
             return Task.CompletedTask;
         }
 
@@ -48,8 +49,8 @@ namespace Finance
             Console.WriteLine(
                 $"OverdueInvoicePolicy - Invoice {Data.InvoiceNumber} is overdue, publishing InvoiceOverdue event.");
             await context.Publish(new InvoiceOverdue() {InvoiceNumber = Data.InvoiceNumber});
-            //We wanna see data in the db during the demos
-            //MarkAsComplete();
+            //Comment to look at data in the db during the demos
+            MarkAsComplete();
         }
     }
 
@@ -60,6 +61,6 @@ namespace Finance
     public class OverdueInvoiceData : ContainSagaData
     {
         public string OrderId { get; set; }
-        public long InvoiceNumber { get; set; }
+        public int InvoiceNumber { get; set; }
     }
 }

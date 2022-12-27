@@ -2,6 +2,6 @@
 {
     public class InvoicePaid
     {
-        public long InvoiceNumber { get; set; }
+        public int InvoiceNumber { get; set; }
     }
 }

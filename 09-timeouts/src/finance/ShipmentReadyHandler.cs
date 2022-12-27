@@ -12,7 +12,7 @@ namespace Finance
             return context.Publish(new Events.InvoiceIssued()
             {
                 OrderId = message.OrderId,
-                InvoiceNumber = DateTime.Now.Ticks,
+                InvoiceNumber = (int)DateTime.Now.Ticks,
                 CustomerCountry = "Italy",
                 DueDate = DateTime.Now.AddDays(15)
             });
