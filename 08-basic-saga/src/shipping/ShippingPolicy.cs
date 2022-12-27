@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Billing.Events;
 using NServiceBus;
 using Shipping.Events;
@@ -19,20 +20,23 @@ namespace Shipping
 
         public Task Handle(PaymentAuthorized message, IMessageHandlerContext context)
         {
+            Console.WriteLine($"Handling {typeof(PaymentAuthorized)} for order {message.OrderId}.");
             Data.IsPaymentAuthorized = true;
-            return VerifyStatus(context);
+            return VerifyStatus(message.OrderId, context);
         }
 
         public Task Handle(OrderItemsCollected message, IMessageHandlerContext context)
         {
+            Console.WriteLine($"Handling {typeof(OrderItemsCollected)} for order {message.OrderId}.");
             Data.AreOrderItemsCollected = true;
-            return VerifyStatus(context);
+            return VerifyStatus(message.OrderId, context);
         }
         
-        private Task VerifyStatus(IMessageHandlerContext context)
+        private Task VerifyStatus(string orderId, IMessageHandlerContext context)
         {
             if (Data.IsPaymentAuthorized && Data.AreOrderItemsCollected)
             {
+                Console.WriteLine($"Order {orderId} is ready to be shipped.");
                 //We wanna see data in the db during the demos
                 //MarkAsComplete();
                 return context.Publish(new ShipmentReady() {OrderId = Data.OrderId});
