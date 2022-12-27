@@ -108,7 +108,7 @@
     ],
     "compounds": [
         {
-            "name": "Lesson 3 - (build)",
+            "name": "ViewModel Decopmposition - (build)",
             "preLaunchTask": "build",
             "configurations": [
                 "Marketing.Api",
@@ -121,7 +121,7 @@
                 "WebApp"]
         },
         {
-            "name": "Lesson 3 - (no build)",
+            "name": "ViewModel Decopmposition - (no build)",
             "configurations": [
                 "Marketing.Api",
                 "Sales.Api", 

@@ -118,7 +118,7 @@
     ],
     "compounds": [
         {
-            "name": "Lesson 4 - (build)",
+            "name": "Shopping cart saga - (build)",
             "preLaunchTask": "build",
             "configurations": [
                 "Marketing.Api", 
@@ -132,7 +132,7 @@
                 "WebApp"]
         },
         {
-            "name": "Lesson 4 - (no build)",
+            "name": "Shopping cart saga - (no build)",
             "configurations": [
                 "Marketing.Api", 
                 "Marketing.Service",

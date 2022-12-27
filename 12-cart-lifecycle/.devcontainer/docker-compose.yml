@@ -1,35 +1,12 @@
 version: '3'
 
 services:
-   lesson-04-demos:
-      build: 
-         context: .
-         dockerfile: Dockerfile
-         args:
-            # [Choice] Update 'VARIANT' to pick a .NET Core version: 2.1, 3.1, 5.0
-            VARIANT: "6.0"
-            # Options
-            INSTALL_NODE: "false"
-            NODE_VERSION: "lts/*"
-            INSTALL_AZURE_CLI: "false"
-            # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
-            USER_UID: 1000
-            USER_GID: 1000
-
+   demo:
+      image: mcr.microsoft.com/devcontainers/dotnet:6.0
       volumes:
-         - ..:/workspace:cached
-      
-      # Overrides default command so things don't shut down after the process ends.
-      command: sleep infinity
-
-      # Runs app on the same network as the message broker container, allows "forwardPorts" in devcontainer.json function.
+         - ../..:/workspaces:cached
       network_mode: service:rabbit
-
-      # Uncomment the next line to use a non-root user for all processes.
-      # user: vscode
-
-   # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
-   # (Adding the "ports" property to this file will not forward from a Codespace.)
+      command: sleep infinity
 
    rabbit:
       image: rabbitmq:3.10-management
@@ -38,9 +15,6 @@ services:
       environment:
          - RABBITMQ_DEFAULT_USER=guest
          - RABBITMQ_DEFAULT_PASS=guest
-      ports:
-         - "5672:5672"
-         - "15672:15672"
 
    marketing-database:
       image: postgres

@@ -78,7 +78,7 @@
     ],
     "compounds": [
         {
-            "name": "Lesson 2 - (build)",
+            "name": "ViewModel Composition - (build)",
             "preLaunchTask": "build",
             "configurations": [
                 "Marketing.Api",
@@ -88,7 +88,7 @@
                 "WebApp"]
         },
         {
-            "name": "Lesson 2 - (no build)",
+            "name": "ViewModel Composition - (no build)",
             "configurations": [
                 "Marketing.Api",
                 "Sales.Api", 

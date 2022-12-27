@@ -1,18 +1,10 @@
 {
-	"name": "Distributed Systems 101 - Recoverability",
-	"dockerComposeFile": "docker-compose.yml",
-	"forwardPorts": [ 4369, 5671, 5672, 15671, 15672, 25672, 5432, 6432 ],
-	"service": "vol-1-lesson-3-demos",
-	"workspaceFolder": "/workspace",
-
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash",
-	},
-
-	// Add the IDs of extensions you want installed when the container is created.
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "demo",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"forwardPorts": [ 15672, 5432 ],
 	"extensions": [
 		"ms-dotnettools.csharp",
-		"ckolkman.vscode-postgres",
+		"ckolkman.vscode-postgres"
 	]
 }
