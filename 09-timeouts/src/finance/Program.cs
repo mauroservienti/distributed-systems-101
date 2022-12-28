@@ -18,9 +18,12 @@ namespace Finance
             conventions.DefiningEventsAs(t => t.Namespace != null && t.Namespace.EndsWith("Events"));
             conventions.DefiningMessagesAs(t => t.Namespace != null && t.Namespace.EndsWith("Messages"));
 
-            var transport = config.UseTransport<RabbitMQTransport>();
-            transport.ConnectionString("host=localhost");
-            transport.UseConventionalRoutingTopology();
+            config.UseTransport(
+                new RabbitMQTransport(
+                    RoutingTopology.Conventional(QueueType.Quorum),
+                    "host=localhost"
+                )
+            );
             
             var persistence = config.UsePersistence<SqlPersistence>();
             var dialect = persistence.SqlDialect<SqlDialect.PostgreSql>();
