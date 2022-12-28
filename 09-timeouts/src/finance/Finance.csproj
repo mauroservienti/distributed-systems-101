@@ -9,7 +9,7 @@
     <PackageReference Include="Npgsql" Version="5.0.4" />
     <PackageReference Include="NServiceBus" Version="7.4.6" />
     <PackageReference Include="NServiceBus.Persistence.Sql" Version="6.2.0" />
-    <PackageReference Include="NServiceBus.RabbitMQ" Version="6.0.0" />
+    <PackageReference Include="NServiceBus.RabbitMQ" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
