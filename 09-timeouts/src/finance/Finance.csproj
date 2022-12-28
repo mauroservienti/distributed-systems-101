@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="5.0.4" />
+    <PackageReference Include="Npgsql" Version="7.0.1" />
     <PackageReference Include="NServiceBus" Version="7.4.6" />
     <PackageReference Include="NServiceBus.Persistence.Sql" Version="6.2.0" />
     <PackageReference Include="NServiceBus.RabbitMQ" Version="6.0.0" />
