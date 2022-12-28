@@ -12,10 +12,12 @@ namespace NServiceBus
             config.AuditProcessedMessagesTo("audit");
             config.SendFailedMessagesTo("error");
 
-            config.UseSerialization<NewtonsoftSerializer>();
-            config.UseTransport<RabbitMQTransport>()
-                .UseConventionalRoutingTopology()
-                .ConnectionString("host=localhost");
+            config.UseSerialization<NewtonsoftJsonSerializer>();
+            config.UseTransport(new RabbitMQTransport(
+                    RoutingTopology.Conventional(QueueType.Quorum),
+                    "host=localhost"
+                )
+            );
 
             var messageConventions = config.Conventions();
             messageConventions.DefiningMessagesAs(t => t.Namespace != null && t.Namespace.EndsWith(".Messages"));
