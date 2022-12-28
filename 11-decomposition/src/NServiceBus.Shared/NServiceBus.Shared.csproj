@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.4" />
+    <PackageReference Include="Npgsql" Version="7.0.1" />
     <PackageReference Include="NServiceBus" Version="8.0.2" />
-    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.3.0" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="3.0.0" />
 	<PackageReference Include="NServiceBus.Persistence.Sql" Version="6.5.1" />
-	<PackageReference Include="NServiceBus.RabbitMQ" Version="6.1.1" />
+	<PackageReference Include="NServiceBus.RabbitMQ" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
