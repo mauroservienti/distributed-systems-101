@@ -17,12 +17,11 @@ namespace Website
             conventions.DefiningEventsAs(t => t.Namespace != null && t.Namespace.EndsWith("Events"));
             conventions.DefiningMessagesAs(t => t.Namespace != null && t.Namespace.EndsWith("Messages"));
 
-            var transport = config.UseTransport<RabbitMQTransport>();
-            transport.ConnectionString("host=localhost");
-            transport.UseConventionalRoutingTopology();
+            var transport = config.UseTransport(
+                new RabbitMQTransport(
+                    RoutingTopology.Conventional(QueueType.Quorum), "host=localhost"));
 
-            var routing = transport.Routing();
-            routing.RouteToEndpoint(typeof(PlaceOrder).Assembly, "sales");
+            transport.RouteToEndpoint(typeof(PlaceOrder).Assembly, "sales");
 
             var endpoint = await Endpoint.Start(config);
 
