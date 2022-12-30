@@ -31,7 +31,11 @@ namespace Website
 
                 channel.BasicConsume(queue: "website",
                                      autoAck: true,
-                                     consumer: consumer);   
+                                     consumer: consumer);
+
+                Console.WriteLine(" Website endpoint running.");
+                Console.WriteLine(" Press [enter] to send a message.");
+                Console.ReadLine(); 
 
                 var props = channel.CreateBasicProperties();
                 props.ReplyTo = "website";
@@ -46,9 +50,7 @@ namespace Website
                                      body: body);
                 channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
                 
-                Console.WriteLine($"Sent {message}");
-
-                Console.WriteLine(" Website endpoint running.");
+                Console.WriteLine($" Sent {message}");
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
             }
