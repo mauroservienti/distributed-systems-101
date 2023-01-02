@@ -14,6 +14,9 @@ namespace Website
             {
                 channel.ConfirmSelect();
 
+                Console.WriteLine(" Press [enter] to send a message.");
+                Console.ReadLine();
+
                 string message = "Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
 

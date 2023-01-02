@@ -12,7 +12,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/sales",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "website",
@@ -22,13 +22,13 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/website",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
     ],
     "compounds": [
         {
             "name": "Request/Response - (build)",
-            "preLaunchTask": "build",
+            "preLaunchTask": "Build solution",
             "configurations": [
                 "sales",
                 "website"]

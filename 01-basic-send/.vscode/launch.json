@@ -12,7 +12,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/sales",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "website",
@@ -22,7 +22,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/website",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
     ],
     "compounds": [

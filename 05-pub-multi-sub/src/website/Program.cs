@@ -33,6 +33,10 @@ namespace Website
                                      autoAck: true,
                                      consumer: consumer);   
 
+                Console.WriteLine(" Website endpoint running.");
+                Console.WriteLine(" Press [enter] to send a message.");
+                Console.ReadLine();
+
                 var props = channel.CreateBasicProperties();
                 props.ReplyTo = "website";
                 props.CorrelationId = "order-abc";
@@ -47,11 +51,10 @@ namespace Website
                 channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
                 
                 Console.WriteLine($"Sent {message}");
-            }
 
-            Console.WriteLine(" Website endpoint running.");
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
+                Console.WriteLine(" Press [enter] to exit.");
+                Console.ReadLine();
+            }
         }
     }
 }
