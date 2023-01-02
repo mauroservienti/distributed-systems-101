@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using NServiceBus;
 using Sales.Messages.Commands;
@@ -19,7 +19,7 @@ namespace Website
 
             var transport = config.UseTransport(
                 new RabbitMQTransport(
-                    RoutingTopology.Conventional(QueueType.Quorum), "host=localhost"));
+                    RoutingTopology.Conventional(QueueType.Classic), "host=localhost"));
 
             transport.RouteToEndpoint(typeof(PlaceOrder).Assembly, "sales");
 
