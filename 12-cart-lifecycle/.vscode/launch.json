@@ -12,7 +12,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Marketing.Api",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "Marketing.Service",
@@ -22,7 +22,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Marketing.Service",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Sales.Api",
@@ -32,7 +32,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Sales.Api",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Sales.Service",
@@ -42,7 +42,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Sales.Service",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Shipping.Api",
@@ -52,7 +52,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Shipping.Api",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Shipping.Service",
@@ -62,7 +62,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Shipping.Service",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Warehouse.Api",
@@ -72,7 +72,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Warehouse.Api",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Warehouse.Service",
@@ -82,7 +82,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Warehouse.Service",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "WebApp",
@@ -92,8 +92,8 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/WebApp",
             "stopAtEntry": false,
-            "console": "internalConsole",
-            "internalConsoleOptions": "openOnSessionStart",
+            "console": "integratedTerminal",
+            "integratedTerminalOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
                 "args": "${auto-detect-url}",
