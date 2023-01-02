@@ -12,7 +12,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/billing",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "finance",
@@ -22,7 +22,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/finance",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "warehouse",
@@ -32,7 +32,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/warehouse",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "sales",
@@ -42,7 +42,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/sales",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "shipping",
@@ -52,7 +52,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/shipping",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
         {
             "name": "website",
@@ -62,7 +62,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/website",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
         },
     ],
     "compounds": [
