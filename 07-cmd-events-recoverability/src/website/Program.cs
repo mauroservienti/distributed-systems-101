@@ -29,6 +29,8 @@ namespace Website
             var endpoint = await Endpoint.Start(config);
 
             Console.WriteLine(" NServiceBus Website endpoint running.");
+            Console.WriteLine(" Press [enter] to start sending messages.");
+            Console.ReadLine();
             Console.WriteLine(" Sending PlaceOrder messages in a loop...");
             
             while(true)
