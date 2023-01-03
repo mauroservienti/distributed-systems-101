@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NServiceBus;
 using Sales.Messages.Commands;
@@ -26,7 +26,8 @@ namespace Website
             var endpoint = await Endpoint.Start(config);
 
             Console.WriteLine(" NServiceBus Website endpoint running.");
-            Console.WriteLine(" Sending PlaceOrder messages in a loop...");
+            Console.WriteLine(" Press [enter] to send PlaceOrder messages in a loop...");
+            Console.ReadLine();
             
             while(true)
             {
