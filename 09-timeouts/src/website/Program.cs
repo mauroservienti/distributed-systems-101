@@ -19,7 +19,7 @@ namespace Website
 
             var transport = config.UseTransport(
                 new RabbitMQTransport(
-                    RoutingTopology.Conventional(QueueType.Quorum),
+                    RoutingTopology.Conventional(QueueType.Classic),
                     "host=localhost"
                     )
                 );
@@ -28,11 +28,14 @@ namespace Website
 
             var endpoint = await Endpoint.Start(config);
 
+            Console.WriteLine(" NServiceBus Website endpoint running.");
+            Console.WriteLine(" Press [enter] to send a message.");
+            Console.ReadLine();
+
             var message = new PlaceOrder() {OrderId = Guid.NewGuid().ToString() };
             await endpoint.Send(message);
 
-            Console.WriteLine(" NServiceBus Website endpoint running.");
-            Console.WriteLine(" Press [enter] to exit.");
+            Console.WriteLine(" Message sent. Press [enter] to exit.");
             Console.ReadLine();
 
             await endpoint.Stop();

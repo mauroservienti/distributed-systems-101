@@ -119,7 +119,21 @@
     "compounds": [
         {
             "name": "Shopping cart saga - (build)",
-            "preLaunchTask": "build",
+            "preLaunchTask": "Build solution",
+            "configurations": [
+                "Marketing.Api", 
+                "Marketing.Service",
+                "Sales.Api", 
+                "Sales.Service",
+                "Shipping.Api", 
+                "Shipping.Service",
+                "Warehouse.Api", 
+                "Warehouse.Service",
+                "WebApp"]
+        },
+        {
+            "name": "Shopping cart saga - (build & deploy data)",
+            "preLaunchTask": "Build & create databases",
             "configurations": [
                 "Marketing.Api", 
                 "Marketing.Service",

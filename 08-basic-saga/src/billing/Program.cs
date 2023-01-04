@@ -18,7 +18,7 @@ namespace Billing
 
             config.UseTransport(
                 new RabbitMQTransport(
-                    RoutingTopology.Conventional(QueueType.Quorum), "host=localhost"));
+                    RoutingTopology.Conventional(QueueType.Classic), "host=localhost"));
 
             var endpoint = await Endpoint.Start(config);
 

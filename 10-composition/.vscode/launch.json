@@ -79,7 +79,17 @@
     "compounds": [
         {
             "name": "ViewModel Composition - (build)",
-            "preLaunchTask": "build",
+            "preLaunchTask": "Build solution",
+            "configurations": [
+                "Marketing.Api",
+                "Sales.Api", 
+                "Shipping.Api", 
+                "Warehouse.Api", 
+                "WebApp"]
+        },
+        {
+            "name": "ViewModel Composition - (build + deploy data)",
+            "preLaunchTask": "Build & create databases",
             "configurations": [
                 "Marketing.Api",
                 "Sales.Api", 

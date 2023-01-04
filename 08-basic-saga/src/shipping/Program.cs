@@ -20,7 +20,7 @@ namespace Shipping
 
             config.UseTransport(
                 new RabbitMQTransport(
-                    RoutingTopology.Conventional(QueueType.Quorum), "host=localhost"));
+                    RoutingTopology.Conventional(QueueType.Classic), "host=localhost"));
             
             var persistence = config.UsePersistence<SqlPersistence>();
             var dialect = persistence.SqlDialect<SqlDialect.PostgreSql>();
