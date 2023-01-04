@@ -20,7 +20,7 @@ namespace Shipping
 
             config.UseTransport(
                 new RabbitMQTransport(
-                    RoutingTopology.Conventional(QueueType.Quorum),
+                    RoutingTopology.Conventional(QueueType.Classic),
                     "host=localhost"
                 )
             );
