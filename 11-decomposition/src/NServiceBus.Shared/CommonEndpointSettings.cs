@@ -15,7 +15,7 @@ namespace NServiceBus
             config.UseSerialization<NewtonsoftJsonSerializer>();
             config.UseTransport(
                 new RabbitMQTransport(
-                    RoutingTopology.Conventional(QueueType.Quorum), "host=localhost"));
+                    RoutingTopology.Conventional(QueueType.Classic), "host=localhost"));
 
             var messageConventions = config.Conventions();
             messageConventions.DefiningMessagesAs(t => t.Namespace != null && t.Namespace.EndsWith(".Messages"));
