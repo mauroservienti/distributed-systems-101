@@ -13,8 +13,9 @@ namespace Finance
             {
                 OrderId = message.OrderId,
                 InvoiceNumber = (int)DateTime.Now.Ticks,
-                CustomerCountry = "Italy",
-                DueDate = DateTime.Now.AddDays(15)
+                CustomerCountry = "Wakanda",
+                // We don't want to wait to much for the invoice to be due
+                DueDate = DateTime.Now.AddSeconds(90)
             });
         }
     }
