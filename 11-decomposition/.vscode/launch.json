@@ -109,7 +109,7 @@
     "compounds": [
         {
             "name": "ViewModel Decopmposition - (build)",
-            "preLaunchTask": "build",
+            "preLaunchTask": "Build solution",
             "configurations": [
                 "Marketing.Api",
                 "Sales.Api", 
