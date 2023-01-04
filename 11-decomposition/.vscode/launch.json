@@ -121,6 +121,19 @@
                 "WebApp"]
         },
         {
+            "name": "ViewModel Decopmposition - (build & deploy data)",
+            "preLaunchTask": "Build & create databases",
+            "configurations": [
+                "Marketing.Api",
+                "Sales.Api", 
+                "Sales.Service",
+                "Shipping.Api", 
+                "Shipping.Service",
+                "Warehouse.Api", 
+                "Warehouse.Service",
+                "WebApp"]
+        },
+        {
             "name": "ViewModel Decopmposition - (no build)",
             "configurations": [
                 "Marketing.Api",
