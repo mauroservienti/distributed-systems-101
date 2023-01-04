@@ -119,7 +119,7 @@
     "compounds": [
         {
             "name": "Shopping cart saga - (build)",
-            "preLaunchTask": "build",
+            "preLaunchTask": "Build solution",
             "configurations": [
                 "Marketing.Api", 
                 "Marketing.Service",
