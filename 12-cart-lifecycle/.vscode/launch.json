@@ -132,6 +132,20 @@
                 "WebApp"]
         },
         {
+            "name": "Shopping cart saga - (build & deploy data)",
+            "preLaunchTask": "Build & create databases",
+            "configurations": [
+                "Marketing.Api", 
+                "Marketing.Service",
+                "Sales.Api", 
+                "Sales.Service",
+                "Shipping.Api", 
+                "Shipping.Service",
+                "Warehouse.Api", 
+                "Warehouse.Service",
+                "WebApp"]
+        },
+        {
             "name": "Shopping cart saga - (no build)",
             "configurations": [
                 "Marketing.Api", 
