@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NServiceBus;
 using Sales.Messages.Commands;
@@ -28,11 +28,14 @@ namespace Website
 
             var endpoint = await Endpoint.Start(config);
 
+            Console.WriteLine(" NServiceBus Website endpoint running.");
+            Console.WriteLine(" Press [enter] to send a message.");
+            Console.ReadLine();
+
             var message = new PlaceOrder() {OrderId = Guid.NewGuid().ToString() };
             await endpoint.Send(message);
 
-            Console.WriteLine(" NServiceBus Website endpoint running.");
-            Console.WriteLine(" Press [enter] to exit.");
+            Console.WriteLine(" Message sent. Press [enter] to exit.");
             Console.ReadLine();
 
             await endpoint.Stop();
