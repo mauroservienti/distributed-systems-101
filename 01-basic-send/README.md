@@ -5,9 +5,7 @@
 > - for this demos the order in which endpoints are executed is important
 > - folder paths are case sensitive
 
-_Tip: quickly open a folder in a new terminal window by right clicking on a folder in the explorer pane and selecting `Open in Integrated Terminal`._
-
-## Start the demo
+## How to start the demo
 
 To start the demo follow the instructions on the root [README file](/README.md#how-to-run-the-demos).
 
