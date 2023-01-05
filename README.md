@@ -59,3 +59,12 @@ The deafult PostgreSQL credentials are:
 
 - User: `db_user`
 - Password: `P@ssw0rd`
+
+## How to run the demos
+
+Each demo lives in a separate folder. To run a demo open the demo folder in VS Code, press `F1` and search for `Reopen in container`. Wait for the Dev Container to complete the setup process.
+
+Once the demo content has been reopened in the dev container:
+
+1. Press `F1`, search for `Run task`, and execute the desired task to build the solution or to buiold the solution and deploy the required data
+2. Go to the `Run and Debug` VS Code section to select the desired compund to execute.
