@@ -27,14 +27,14 @@
     ],
     "compounds": [
         {
-            "name": "Sand/Receive - (build)",
+            "name": "Send/Receive - (build)",
             "preLaunchTask": "build",
             "configurations": [
                 "sales",
                 "website"]
         },
         {
-            "name": "Sand/Receive - (no build)",
+            "name": "Send/Receive - (no build)",
             "configurations": [
                 "sales",
                 "website"]
