@@ -1,0 +1,156 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "send-receive/sender-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/send-receive/sender-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "send-receive/receiver-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/send-receive/receiver-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "request-response/sender-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/request-response/sender-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "request-response/receiver-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/request-response/receiver-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "request-multi-response/sender-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/request-multi-response/sender-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "request-multi-response/receiver-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/request-multi-response/receiver-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "publish-subscribe/subscriber-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/publish-subscribe/subscriber-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "publish-subscribe/publisher-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/publish-subscribe/publisher-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "publish-multi-subscribe/publisher-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/publish-multi-subscribe/publisher-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "publish-multi-subscribe/a-subscriber-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/publish-multi-subscribe/a-subscriber-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "publish-multi-subscribe/another-subscriber-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/publish-multi-subscribe/another-subscriber-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Send/Receive demo",
+            "configurations": [
+                "send-receive/receiver-endpoint",
+                "send-receive/sender-endpoint"
+            ]
+        },
+        {
+            "name": "Request/Response demo",
+            "configurations": [
+                "request-response/receiver-endpoint",
+                "request-response/sender-endpoint"
+            ]
+        },
+        {
+            "name": "Request with correlated responses demo",
+            "configurations": [
+                "request-multi-response/receiver-endpoint",
+                "request-multi-response/sender-endpoint"
+            ]
+        },
+        {
+            "name": "Publish/Subscribe demo",
+            "configurations": [
+                "publish-subscribe/subscriber-endpoint",
+                "publish-subscribe/publisher-endpoint"
+            ]
+        },
+        {
+            "name": "Publish with multiple subscribers demo",
+            "configurations": [
+                "publish-multi-subscribe/a-subscriber-endpoint",
+                "publish-multi-subscribe/another-subscriber-endpoint",
+                "publish-multi-subscribe/publisher-endpoint"
+            ]
+        }
+    ]
+}
