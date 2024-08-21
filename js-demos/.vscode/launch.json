@@ -27,6 +27,26 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "scale-out-send-receive/sender-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/scale-out-send-receive/sender-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "scale-out-send-receive/receiver-endpoint",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/scale-out-send-receive/receiver-endpoint/endpoint.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "request-response/sender-endpoint",
             "skipFiles": [
                 "<node_internals>/**"
@@ -121,6 +141,14 @@
             "configurations": [
                 "send-receive/receiver-endpoint",
                 "send-receive/sender-endpoint"
+            ]
+        },
+        {
+            "name": "Scled-out Send/Receive demo",
+            "configurations": [
+                "scale-out-send-receive/receiver-endpoint",
+                "scale-out-send-receive/receiver-endpoint",
+                "scale-out-send-receive/sender-endpoint"
             ]
         },
         {
