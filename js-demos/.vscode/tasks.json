@@ -1,0 +1,15 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Recursive npm install",
+            "type": "shell",
+            "command": "node ./npm-install-recursive.js",
+            "options": {
+                "cwd": "${workspaceFolder}/src/"
+            }
+        }
+    ]
+}

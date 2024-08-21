@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "amqplib": "^0.10.2",
+    "readline": "^1.3.0"
+  }
+}
