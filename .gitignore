@@ -35,3 +35,6 @@ x86/
 
 # macOS garbage
 .DS_Store
+
+# Dependency directories
+node_modules/
