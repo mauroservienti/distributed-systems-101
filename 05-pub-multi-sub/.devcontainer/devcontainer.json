@@ -3,7 +3,13 @@
     "service": "demo",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"forwardPorts": [ 15672 ],
-	"extensions": [
-		"ms-dotnettools.csharp"
-	]
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-dotnettools.csharp"
+			]
+		}
+	}
 }

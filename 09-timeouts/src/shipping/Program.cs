@@ -12,6 +12,7 @@ namespace Shipping
         {
             var config = new EndpointConfiguration("shipping");
             config.EnableInstallers();
+            config.UseSerialization<SystemJsonSerializer>();
 
             var conventions = config.Conventions();
             conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));
