@@ -11,6 +11,7 @@ namespace Website
         {
             var config = new EndpointConfiguration("website");
             config.EnableInstallers();
+            config.UseSerialization<SystemJsonSerializer>();
 
             var conventions = config.Conventions();
             conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));

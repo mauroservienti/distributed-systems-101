@@ -12,6 +12,7 @@ namespace Finance
         {
             var config = new EndpointConfiguration("finance");
             config.EnableInstallers();
+            config.UseSerialization<SystemJsonSerializer>();
 
             var conventions = config.Conventions();
             conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));

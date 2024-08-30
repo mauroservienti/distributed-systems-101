@@ -10,6 +10,7 @@ namespace Billing
         {
             var config = new EndpointConfiguration("billing");
             config.EnableInstallers();
+            config.UseSerialization<SystemJsonSerializer>();
 
             var conventions = config.Conventions();
             conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));

@@ -10,6 +10,7 @@ namespace Sales
         {
             var config = new EndpointConfiguration("sales");
             config.EnableInstallers();
+            config.UseSerialization<SystemJsonSerializer>();
 
             var conventions = config.Conventions();
             conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));
