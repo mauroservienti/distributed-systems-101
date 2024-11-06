@@ -1,55 +1,58 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Sales
 {
     class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            await using var connection = await factory.CreateConnectionAsync();
+            await using var channel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+            await channel.QueueDeclareAsync(queue: "sales",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.ReceivedAsync += async (model, ea) =>
             {
-                channel.ConfirmSelect();
-                channel.QueueDeclare(queue: "sales",
-                                     durable: true,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
+                var receivedBody = ea.Body.ToArray();
+                var receivedMessage = Encoding.UTF8.GetString(receivedBody);
+                var receivedProps = ea.BasicProperties;
+                Console.WriteLine($"Received {receivedMessage} with correlation ID {receivedProps.CorrelationId}");
 
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
+                var replyProps = new BasicProperties
                 {
-                    var receivedBody = ea.Body.ToArray();
-                    var receivedMessage = Encoding.UTF8.GetString(receivedBody);
-                    var receivedProps = ea.BasicProperties;
-                    Console.WriteLine($"Received {receivedMessage} with correlation ID {receivedProps.CorrelationId}");
-
-                    var replyProps = channel.CreateBasicProperties();
-                    replyProps.CorrelationId = receivedProps.CorrelationId;
-
-                    string replyMessage = $"Order {receivedProps.CorrelationId} on its way...";
-                    var replyBody = Encoding.UTF8.GetBytes(replyMessage);
-
-                    channel.BasicPublish(exchange: "",
-                                     routingKey: receivedProps.ReplyTo,
-                                     basicProperties: replyProps,
-                                     body: replyBody);
-                    channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
-                
-                    Console.WriteLine($"Sent {replyMessage}");
+                    CorrelationId = receivedProps.CorrelationId
                 };
-                channel.BasicConsume(queue: "sales",
-                                     autoAck: true,
-                                     consumer: consumer);
 
-                Console.WriteLine(" Sales endpoint running.");
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
-            }
+                var replyMessage = $"Order {receivedProps.CorrelationId} on its way...";
+                var replyBody = Encoding.UTF8.GetBytes(replyMessage);
+
+                await channel!.BasicPublishAsync(
+                    "",
+                    receivedProps!.ReplyTo!,
+                    true,
+                    basicProperties: replyProps,
+                    body: replyBody);
+
+                Console.WriteLine($"Sent {replyMessage}");
+            };
+
+            await channel.BasicConsumeAsync(queue: "sales",
+                autoAck: true,
+                consumer: consumer);
+
+            Console.WriteLine(" Sales endpoint running.");
+            Console.WriteLine(" Press [enter] to exit.");
+            Console.ReadLine();
         }
     }
 }

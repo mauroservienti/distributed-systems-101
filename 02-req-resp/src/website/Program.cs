@@ -1,58 +1,61 @@
 ﻿using System;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System.Text;
+using System.Threading.Tasks;
+using RabbitMQ.Client.Events;
 
 namespace Website
 {
     class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            await using var connection = await factory.CreateConnectionAsync();
+            await using var channel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+
+            await channel.QueueDeclareAsync(queue: "website",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.ReceivedAsync += (model, ea) =>
             {
-                channel.ConfirmSelect();
+                var receivedBody = ea.Body.ToArray();
+                var receivedMessage = Encoding.UTF8.GetString(receivedBody);
+                Console.WriteLine($"Received {receivedMessage} with correlation ID {ea.BasicProperties.CorrelationId}");
 
-                channel.QueueDeclare(queue: "website",
-                                     durable: true,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
+                return Task.CompletedTask;
+            };
 
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var receivedBody = ea.Body.ToArray();
-                    var receivedMessage = Encoding.UTF8.GetString(receivedBody);
-                    Console.WriteLine($"Received {receivedMessage} with correlation ID {ea.BasicProperties.CorrelationId}");
-                };
+            await channel.BasicConsumeAsync(queue: "website",
+                autoAck: true,
+                consumer: consumer);
 
-                channel.BasicConsume(queue: "website",
-                                     autoAck: true,
-                                     consumer: consumer);  
+            Console.WriteLine("Endpoint ready, press [enter] to send a message.");
+            Console.Read();
 
-                Console.WriteLine("Endpoint ready, press [enter] to send a message.");
-                Console.Read();
+            var props = new BasicProperties
+            {
+                ReplyTo = "website",
+                CorrelationId = "order-abc"
+            };
 
-                var props = channel.CreateBasicProperties();
-                props.ReplyTo = "website";
-                props.CorrelationId = "order-abc";
+            const string message = "Hello World!";
+            var body = Encoding.UTF8.GetBytes(message);
 
-                string message = "Hello World!";
-                var body = Encoding.UTF8.GetBytes(message);
+            await channel.BasicPublishAsync(
+                "",
+                "sales",
+                true,
+                basicProperties: props,
+                body: body);
 
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "sales",
-                                     basicProperties: props,
-                                     body: body);
-                channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
-                
-                Console.WriteLine($"Sent {message}");
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
-            }
+            Console.WriteLine($"Sent {message}");
+            Console.WriteLine(" Press [enter] to exit.");
+            Console.ReadLine();
         }
     }
 }
