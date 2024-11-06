@@ -1,73 +1,77 @@
 ﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System;
 using System.Text;
+using System.Threading.Tasks;
+using RabbitMQ.Client.Events;
 
-namespace Sales
+namespace Sales;
+
+class Program
 {
-    class Program
+    public static async Task Main()
     {
-        public static void Main()
+        var factory = new ConnectionFactory() { HostName = "localhost" };
+        await using var connection = await factory.CreateConnectionAsync();
+        await using var channel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+        await channel.QueueDeclareAsync(queue: "sales",
+            durable: true,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null);
+
+        await channel.ExchangeDeclareAsync(exchange: "order.accepted",
+            durable: true,
+            type: "topic");
+
+        var consumer = new AsyncEventingBasicConsumer(channel);
+        consumer.ReceivedAsync += async (model, ea) =>
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            var receivedBody = ea.Body.ToArray();
+            var receivedMessage = Encoding.UTF8.GetString(receivedBody);
+            var receivedProps = ea.BasicProperties;
+            Console.WriteLine($"Received {receivedMessage} with correlation ID {receivedProps.CorrelationId}");
+
+            var replyProps = new BasicProperties
             {
-                channel.ConfirmSelect();
-                channel.QueueDeclare(queue: "sales",
-                                     durable: true,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
+                CorrelationId = receivedProps.CorrelationId
+            };
 
-                channel.ExchangeDeclare(exchange: "order.accepted",
-                                        durable: true,
-                                        type: "topic");
+            string replyMessage = $"Order {receivedProps.CorrelationId} on its way...";
+            var replyBody = Encoding.UTF8.GetBytes(replyMessage);
 
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var receivedBody = ea.Body.ToArray();
-                    var receivedMessage = Encoding.UTF8.GetString(receivedBody);
-                    var receivedProps = ea.BasicProperties;
-                    Console.WriteLine($"Received {receivedMessage} with correlation ID {receivedProps.CorrelationId}");
+            await channel!.BasicPublishAsync(
+                "",
+                receivedProps!.ReplyTo!,
+                true,
+                basicProperties: replyProps,
+                body: replyBody);
 
-                    var replyProps = channel.CreateBasicProperties();
-                    replyProps.CorrelationId = receivedProps.CorrelationId;
+            Console.WriteLine($"Replied {replyMessage}");
 
-                    string replyMessage = $"Order {receivedProps.CorrelationId} on its way...";
-                    var replyBody = Encoding.UTF8.GetBytes(replyMessage);
+            var eventProps = new BasicProperties
+            {
+                CorrelationId = receivedProps.CorrelationId
+            };
 
-                    channel.BasicPublish(exchange: "",
-                                     routingKey: receivedProps.ReplyTo,
-                                     basicProperties: replyProps,
-                                     body: replyBody);
-                    channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
-                
-                    Console.WriteLine($"Replied {replyMessage}");
+            string eventMessage = $"Order {receivedProps.CorrelationId} accepted";
+            var eventBody = Encoding.UTF8.GetBytes(eventMessage);
 
-                    var eventProps = channel.CreateBasicProperties();
-                    eventProps.CorrelationId = receivedProps.CorrelationId;
+            await channel.BasicPublishAsync(
+                "order.accepted",
+                "order.accepted",
+                true,
+                eventProps,
+                eventBody);
 
-                    string eventMessage = $"Order {receivedProps.CorrelationId} accepted";
-                    var eventBody = Encoding.UTF8.GetBytes(eventMessage);
+            Console.WriteLine($"Published {eventMessage}");
+        };
 
-                    channel.BasicPublish(exchange: "order.accepted",
-                                         routingKey: "order.accepted",
-                                         basicProperties: eventProps,
-                                         body: eventBody);
-                    channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
+        await channel.BasicConsumeAsync(queue: "sales",
+            autoAck: true,
+            consumer: consumer);
 
-                    Console.WriteLine($"Published {eventMessage}");
-                };
-                channel.BasicConsume(queue: "sales",
-                                     autoAck: true,
-                                     consumer: consumer);
-
-                Console.WriteLine(" Sales endpoint running.");
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
-            }
-        }
+        Console.WriteLine(" Sales endpoint running.");
+        Console.WriteLine(" Press [enter] to exit.");
+        Console.ReadLine();
     }
 }
