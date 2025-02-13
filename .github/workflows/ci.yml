@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             name: Linux
       fail-fast: false
     steps:
@@ -25,5 +25,5 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4.3.0
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
       - run: ./build.sh
