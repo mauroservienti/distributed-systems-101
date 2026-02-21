@@ -1,34 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+using Sales;
+using Testcontainers.RabbitMq;
+using Website;
 using Xunit;
 
 namespace Demo.Tests;
 
-/// <summary>
-/// Smoke tests that verify the RabbitMQ.Client API surface used in the demo still compiles
-/// and the key types can be instantiated. These tests catch breaking API changes in the
-/// RabbitMQ.Client package without requiring a running broker.
-/// </summary>
-public class RabbitMqApiTests
+public class MultipleResponseTests(RabbitMqFixture fixture) : IClassFixture<RabbitMqFixture>
 {
+    /// <summary>
+    /// Verifies the full Demo 03 flow: Website sends a request to the "sales" queue and
+    /// Sales sends back TWO replies — an initial acknowledgement and a later "shipped"
+    /// update — using a real RabbitMQ broker in Docker.
+    /// </summary>
     [Fact]
-    public void ConnectionFactory_can_be_created()
+    public async Task Website_sends_order_and_receives_two_replies_from_Sales()
     {
-        var factory = new ConnectionFactory { HostName = "localhost" };
-        Assert.NotNull(factory);
+        var factory = new ConnectionFactory { Uri = new Uri(fixture.Container.GetConnectionString()) };
+        await using var connection = await factory.CreateConnectionAsync();
+        await using var salesChannel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+        await using var websiteChannel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+
+        // Sales sends two replies; pass TimeSpan.Zero so the test is not slow
+        var salesEndpoint = new SalesEndpoint(salesChannel, TimeSpan.Zero);
+        await salesEndpoint.StartAsync();
+
+        // Website collects all replies
+        var replies = new List<string>();
+        var secondReply = new TaskCompletionSource<bool>();
+        var websiteEndpoint = new WebsiteEndpoint(websiteChannel);
+        await websiteEndpoint.StartAsync((message, _) =>
+        {
+            lock (replies) replies.Add(message);
+            if (replies.Count >= 2) secondReply.TrySetResult(true);
+            return Task.CompletedTask;
+        });
+
+        await websiteEndpoint.SendOrderAsync("Hello World!", "order-123");
+
+        await secondReply.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        Assert.Equal(2, replies.Count);
+        Assert.Contains(replies, r => r.Contains("on its way"));
+        Assert.Contains(replies, r => r.Contains("shipped"));
+    }
+}
+
+public class RabbitMqFixture : IAsyncLifetime
+{
+    public RabbitMqContainer Container { get; private set; } = null!;
+
+    public async Task InitializeAsync()
+    {
+        Container = new RabbitMqBuilder("rabbitmq:4-management-alpine").Build();
+        await Container.StartAsync();
     }
 
-    [Fact]
-    public void CreateChannelOptions_can_be_created()
-    {
-        var options = new CreateChannelOptions(publisherConfirmationsEnabled: true, publisherConfirmationTrackingEnabled: true);
-        Assert.NotNull(options);
-    }
-
-    [Fact]
-    public void BasicProperties_can_be_created_with_correlation_id()
-    {
-        var props = new BasicProperties { CorrelationId = "order-abc" };
-        Assert.Equal("order-abc", props.CorrelationId);
-    }
+    public async Task DisposeAsync() => await Container.DisposeAsync();
 }

@@ -10,23 +10,86 @@ This document describes the plan to add basic integration tests to each demo in 
 - **NServiceBus handler testing**: `NServiceBus.Testing` 10.x — provides `TestableMessageHandlerContext` so handlers and sagas can be exercised without a running broker or database
 - **Project structure**: one `tests/Demo.Tests/` folder per demo, referenced by the demo's `Demo.sln`
 
-## Demo-by-Demo Plan
+## Demo-by-Demo Plan (Implemented)
 
 ### Demos 01–05 (Raw RabbitMQ)
 
-**Demos**: `01-basic-send`, `02-req-resp`, `03-req-multi-resp`, `04-basic-pub-sub`, `05-pub-multi-sub`
+All message-handling and message-sending logic has been extracted into dedicated endpoint
+classes, making each demo testable with a real RabbitMQ broker via Testcontainers.
 
-All logic in these demos lives inside `Program.cs` event-handler lambdas and is tightly coupled to live RabbitMQ connections. There are no extracted handler classes to unit-test in isolation.
+#### Extracted Classes
 
-**Testing strategy**: *API-surface smoke tests.*  
-Each test project references the demo's source projects and verifies that the RabbitMQ.Client types used in the demo (`ConnectionFactory`, `CreateChannelOptions`, `BasicProperties`, `AsyncEventingBasicConsumer`) can be instantiated. This catches breaking changes in the `RabbitMQ.Client` package without requiring a running broker.
+| Demo | Endpoint class | Responsibility |
+|------|---------------|----------------|
+| 01 | `Sales.SalesEndpoint` | Declares "sales" queue, consumes messages |
+| 01 | `Website.WebsiteEndpoint` | Sends messages to "sales" queue |
+| 02 | `Sales.SalesEndpoint` | Receives requests from "sales", sends reply to ReplyTo address |
+| 02 | `Website.WebsiteEndpoint` | Declares "website" reply queue, sends requests, receives replies |
+| 03 | `Sales.SalesEndpoint` | Receives requests, sends two replies (ack + shipped); accepts optional `processingDelay` parameter (defaults to 2 s) |
+| 03 | `Website.WebsiteEndpoint` | Same as Demo 02 |
+| 04 | `Sales.SalesEndpoint` | Receives requests, replies, publishes "order.accepted" event |
+| 04 | `Website.WebsiteEndpoint` | Same as Demo 02 |
+| 04 | `Billing.BillingEndpoint` | Subscribes to "order.accepted", publishes "order.authorized" |
+| 05 | Same as 04 + `Warehouse.WarehouseEndpoint` | Subscribes to "order.accepted", publishes "order.items.collected" |
 
-**Test cases per demo**:
-1. `ConnectionFactory_can_be_created` — `new ConnectionFactory()` succeeds
-2. `CreateChannelOptions_can_be_created` — `new CreateChannelOptions(true, true)` succeeds
-3. `BasicProperties_can_be_created` — `new BasicProperties()` succeeds
+#### Class Design Pattern
 
----
+Each endpoint class:
+- Accepts `IChannel` via primary constructor (injectable for testing)
+- Has a `StartAsync(Func<...>? onXxx = null)` method that declares queues/exchanges/bindings and starts consuming
+- Has `SendXxxAsync(...)` method(s) where applicable for sending messages
+- The `onXxx` callback provides observability (called when a message is received); `Program.cs` uses it for logging, tests use it for assertions
+
+#### `Program.cs` Changes
+
+Each `Program.cs` is now a thin wrapper:
+```csharp
+var factory = new ConnectionFactory { HostName = "localhost" };
+await using var connection = await factory.CreateConnectionAsync();
+await using var channel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+
+var endpoint = new SalesEndpoint(channel);
+await endpoint.StartAsync(message => {
+    Console.WriteLine(" [x] Received {0}", message);
+    return Task.CompletedTask;
+});
+
+Console.WriteLine(" Sales endpoint running. Press [enter] to exit.");
+Console.ReadLine();
+```
+
+#### Integration Tests (Testcontainers)
+
+Each demo's `tests/Demo.Tests/` project contains one end-to-end integration test that starts a real RabbitMQ broker in Docker using `Testcontainers.RabbitMq 4.10.0`. The test exercises the full message flow:
+
+```
+Demo 01: Website.SendOrderAsync → Sales.StartAsync (receives message)
+Demo 02: Website.SendOrderAsync → Sales.StartAsync (auto-replies) → Website callback
+Demo 03: Website.SendOrderAsync → Sales.StartAsync (sends 2 replies) → Website receives both
+Demo 04: Website.SendOrderAsync → Sales (replies + publishes) → Billing (receives event)
+Demo 05: Website.SendOrderAsync → Sales (replies + publishes) → Billing AND Warehouse (both receive)
+```
+
+#### Running the Tests
+
+```bash
+# Single demo
+cd 01-basic-send && dotnet test tests/Demo.Tests/Demo.Tests.csproj
+
+# All 5 demos
+for d in 01-basic-send 02-req-resp 03-req-multi-resp 04-basic-pub-sub 05-pub-multi-sub; do
+  dotnet test $d/tests/Demo.Tests/Demo.Tests.csproj
+done
+```
+
+#### Note on `mandatory: false` for downstream exchange publishes
+
+`BillingEndpoint` and `WarehouseEndpoint` use `mandatory: false` when publishing to their
+own output exchanges (`order.authorized`, `order.items.collected`). This is intentional:
+in a pub/sub pattern, the publisher does not require that anyone is listening. If no
+subscriber is bound, the message is silently dropped. Using `mandatory: true` would cause
+a `PublishReturnException` in any test or scenario where no downstream subscriber is running.
+
 
 ### Demo 06 — Commands & Pub/Sub with NServiceBus (`06-cmd-events`)
 
