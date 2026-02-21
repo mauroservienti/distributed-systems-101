@@ -27,3 +27,4 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: ./build.sh
+      - run: ./build.sh test

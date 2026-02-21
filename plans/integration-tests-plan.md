@@ -1,0 +1,268 @@
+# Integration Tests Plan
+
+## Overview
+
+This document describes the plan to add basic integration tests to each demo in this repository. The primary goal is to validate that demos continue working correctly when NuGet packages are updated.
+
+## Technology Choices
+
+- **Test framework**: xUnit 2.x
+- **Container-based broker**: `Testcontainers.RabbitMq 4.10.0` — spins up a real RabbitMQ broker in Docker for end-to-end message flow tests (demos 01–05)
+- **NServiceBus handler testing**: `NServiceBus.Testing` 10.x — provides `TestableMessageHandlerContext` so handlers and sagas can be exercised without a running broker or database (demos 06–12)
+- **Project structure**: one `tests/Demo.Tests/` folder per demo, referenced by the demo's `Demo.sln`
+
+## CI Integration
+
+Tests run automatically in every CI build via the Bullseye build script in `targets/Program.cs`:
+
+```csharp
+// Build all solutions first
+Target("default",
+    Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories).Order(),
+    solution => Run("dotnet", $"build \"{solution}\" --configuration Release"));
+
+// Then run dotnet test against the already-built solutions
+Target("test",
+    dependsOn: ["default"],
+    Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories).Order(),
+    solution => Run("dotnet", $"test \"{solution}\" --configuration Release --no-build"));
+```
+
+`.github/workflows/ci.yml` runs both steps on every push and pull request:
+
+```yaml
+- run: ./build.sh        # builds all solutions
+- run: ./build.sh test   # runs all tests
+```
+
+Demos 01–05 use `Testcontainers.RabbitMq`, which requires Docker. GitHub Actions `ubuntu-latest` runners have Docker pre-installed, so these tests work in CI without any additional setup.
+
+## Running Tests Locally
+
+```bash
+# Build everything first, then test
+./build.sh
+./build.sh test
+
+# Or build + test together
+./build.sh test   # implicitly runs 'default' first due to dependsOn
+
+# Single demo
+cd 01-basic-send && dotnet test tests/Demo.Tests/Demo.Tests.csproj
+```
+
+---
+
+## Demo-by-Demo Plan (Implemented)
+
+### Demos 01–05 (Raw RabbitMQ)
+
+All message-handling and message-sending logic has been extracted from `Program.cs` into
+dedicated endpoint classes, making each demo fully testable against a real RabbitMQ broker
+via Testcontainers.
+
+#### Extracted Classes
+
+| Demo | Endpoint class | Responsibility |
+|------|---------------|----------------|
+| 01 | `Sales.SalesEndpoint` | Declares "sales" queue, consumes messages |
+| 01 | `Website.WebsiteEndpoint` | Sends messages to "sales" queue |
+| 02 | `Sales.SalesEndpoint` | Receives requests from "sales", sends reply to ReplyTo address |
+| 02 | `Website.WebsiteEndpoint` | Declares "website" reply queue, sends requests, receives replies |
+| 03 | `Sales.SalesEndpoint` | Receives requests, sends two replies (ack + shipped); accepts optional `processingDelay` parameter (defaults to 2 s) |
+| 03 | `Website.WebsiteEndpoint` | Same as Demo 02 |
+| 04 | `Sales.SalesEndpoint` | Receives requests, replies, publishes "order.accepted" event |
+| 04 | `Website.WebsiteEndpoint` | Same as Demo 02 |
+| 04 | `Billing.BillingEndpoint` | Subscribes to "order.accepted", publishes "order.authorized" |
+| 05 | Same as 04 + `Warehouse.WarehouseEndpoint` | Subscribes to "order.accepted", publishes "order.items.collected" |
+
+#### Class Design Pattern
+
+Each endpoint class:
+- Accepts `IChannel` via primary constructor (injectable for testing)
+- Has a `StartAsync(Func<...>? onXxx = null)` method that declares queues/exchanges/bindings and starts consuming
+- Has `SendXxxAsync(...)` method(s) where applicable for sending messages
+- The `onXxx` callback provides observability (called when a message is received); `Program.cs` uses it for logging, tests use it for assertions
+
+#### `Program.cs` Changes
+
+Each `Program.cs` is now a thin wrapper:
+```csharp
+var factory = new ConnectionFactory { HostName = "localhost" };
+await using var connection = await factory.CreateConnectionAsync();
+await using var channel = await connection.CreateChannelAsync(new CreateChannelOptions(true, true));
+
+var endpoint = new SalesEndpoint(channel);
+await endpoint.StartAsync(message => {
+    Console.WriteLine(" [x] Received {0}", message);
+    return Task.CompletedTask;
+});
+
+Console.WriteLine(" Sales endpoint running. Press [enter] to exit.");
+Console.ReadLine();
+```
+
+#### Integration Tests (Testcontainers)
+
+Each demo's `tests/Demo.Tests/` project contains one end-to-end integration test that starts a real RabbitMQ broker in Docker (`rabbitmq:4-management-alpine`) using `Testcontainers.RabbitMq 4.10.0`. `IClassFixture<RabbitMqFixture>` starts one container per test class; `TaskCompletionSource<T>` captures received messages with a 10-second timeout. The test exercises the full message flow:
+
+```
+Demo 01: Website.SendOrderAsync → Sales.StartAsync (receives message)
+Demo 02: Website.SendOrderAsync → Sales.StartAsync (auto-replies) → Website callback
+Demo 03: Website.SendOrderAsync → Sales.StartAsync (sends 2 replies) → Website receives both
+Demo 04: Website.SendOrderAsync → Sales (replies + publishes) → Billing (receives event)
+Demo 05: Website.SendOrderAsync → Sales (replies + publishes) → Billing AND Warehouse (both receive)
+```
+
+#### Note on `mandatory: false` for downstream exchange publishes
+
+`BillingEndpoint` and `WarehouseEndpoint` use `mandatory: false` when publishing to their
+own output exchanges (`order.authorized`, `order.items.collected`). This is intentional:
+in a pub/sub pattern, the publisher does not require that anyone is listening. If no
+subscriber is bound, the message is silently dropped. Using `mandatory: true` would cause
+a `PublishReturnException` in any test or scenario where no downstream subscriber is running.
+
+---
+
+### Demo 06 — Commands & Pub/Sub with NServiceBus (`06-cmd-events`)
+
+Uses `NServiceBus.Testing.TestableMessageHandlerContext`.
+
+**Handler: `Sales.PlaceOrderHandler`**
+1. `PlaceOrder_should_reply_with_PlaceOrderReply` — handler replies with `PlaceOrderReply` containing the same `OrderId`
+2. `PlaceOrder_should_publish_OrderPlaced` — handler publishes `OrderPlaced` with the same `OrderId`
+
+**Handler: `Billing.OrderPlacedHandler`**
+3. `OrderPlaced_should_publish_PaymentAuthorized` — handler publishes `PaymentAuthorized` with the same `OrderId`
+
+**Handler: `Warehouse.OrderPlacedHandler`**
+4. `OrderPlaced_should_publish_OrderItemsCollected` — handler publishes `OrderItemsCollected` with the same `OrderId`
+
+---
+
+### Demo 07 — Commands, Pub/Sub & Recoverability (`07-cmd-events-recoverability`)
+
+Handlers are structurally identical to Demo 06. The Shipping handlers (`PaymentAuthorizedHandler`, `OrderItemsCollectedHandler`) make direct PostgreSQL calls, so they are excluded from automated testing.
+
+**Handler: `Sales.PlaceOrderHandler`**
+1. `PlaceOrder_should_reply_with_PlaceOrderReply`
+2. `PlaceOrder_should_publish_OrderPlaced`
+
+**Handler: `Billing.OrderPlacedHandler`**
+3. `OrderPlaced_should_publish_PaymentAuthorized`
+
+**Handler: `Warehouse.OrderPlacedHandler`**
+4. `OrderPlaced_should_publish_OrderItemsCollected`
+
+---
+
+### Demo 08 — Basic Saga (`08-basic-saga`)
+
+**Handler: `Sales.PlaceOrderHandler`** (same tests as Demo 06/07)
+
+**Saga: `Shipping.ShippingPolicy`**
+1. `PaymentAuthorized_received_first_should_not_publish_ShipmentReady` — only first message; saga not complete
+2. `OrderItemsCollected_received_first_should_not_publish_ShipmentReady` — only first message; saga not complete
+3. `Both_messages_received_should_publish_ShipmentReady` — after both messages are handled, `ShipmentReady` is published
+
+---
+
+### Demo 09 — Timeouts (`09-timeouts`)
+
+**Saga: `Shipping.ShippingPolicy`** (same three tests as Demo 08)
+
+**Handler: `Finance.ShipmentReadyHandler`**
+1. `ShipmentReady_should_publish_InvoiceIssued` — handler publishes `InvoiceIssued` with matching `OrderId`
+
+**Saga: `Finance.OverdueInvoicePolicy`**
+2. `InvoiceIssued_should_request_timeout` — saga stores data and requests a `CheckPayment` timeout
+3. `InvoiceIssued_for_Italy_should_request_extended_timeout` — Italy customers get a 20-day extension
+4. `InvoicePaid_should_mark_saga_as_complete` — saga completes when invoice is paid
+5. `Timeout_when_unpaid_should_publish_InvoiceOverdue` — timeout handler publishes `InvoiceOverdue` and completes
+
+---
+
+### Demo 10 — ViewModel Composition (`10-composition`)
+
+Composition handlers implement `ICompositionRequestsHandler` (ServiceComposer.AspNetCore) and make live HTTP calls to back-end APIs. Full integration testing requires running databases and HTTP servers.
+
+**Testing strategy**: *Compilation smoke test.*  
+A test project references the composition projects and includes a single always-passing test confirming the assembly loads. This guarantees all source projects (and their transitive dependencies) still compile after a package update.
+
+---
+
+### Demo 11 — ViewModel Decomposition (`11-decomposition`)
+
+Same situation as Demo 10.
+
+**Testing strategy**: Same compilation smoke test approach as Demo 10.
+
+---
+
+### Demo 12 — Shopping Cart Lifecycle (`12-cart-lifecycle`)
+
+Most handlers require a running database (`SalesContext`, `SalesData`, etc.). The `ShoppingCartLifecyclePolicy` saga contains pure business logic.
+
+**Saga: `Sales.Service.Policies.ShoppingCartLifecyclePolicy`**
+1. `ProductAddedToCart_should_request_stale_and_wipe_timeouts` — two timeouts are scheduled
+2. `Stale_timeout_when_cart_still_active_should_not_publish` — `LastTouched` updated after timeout was scheduled; no event published
+3. `Stale_timeout_when_cart_untouched_should_publish_ShoppingCartGotStale` — publishes the event
+4. `Wipe_timeout_when_cart_untouched_should_publish_ShoppingCartGotInactive_and_complete` — publishes event and marks saga complete
+
+---
+
+## Project Structure
+
+```
+{demo}/
+└── tests/
+    └── Demo.Tests/
+        ├── Demo.Tests.csproj
+        └── *Tests.cs
+```
+
+Test projects are added to each demo's `Demo.sln`.
+
+---
+
+## Build Fixes Applied
+
+Several solutions had pre-existing issues that prevented building in CI:
+
+### MSB5004: duplicate project names (demos 06, 07, 08, 09)
+
+Each `.sln` contained dangling `{2150E333-8FDC-42A3-9474-1A3956D46DE8}` (Solution Folder)
+entries with lowercase names (e.g. `sales`, `billing`, `warehouse`, `shipping`) that MSBuild
+treats as duplicates of the real C# projects under its case-insensitive name comparison.
+None of these folders appeared in a `NestedProjects` section.
+
+**Fix:** removed the spurious `Project...EndProject` blocks from each affected `.sln`.
+
+### LIB002: CDN library resolution failure (demos 10, 11, 12)
+
+`WebApp.csproj` references `Microsoft.Web.LibraryManager.Build`, which injects a
+`LibraryManagerRestore` target that downloads jQuery and Bootstrap from `cdnjs.com` at
+build time. This fails in CI where outbound CDN access is unavailable.
+
+The target is gated on `'$(LibraryRestore)' != 'False'`. Added `<LibraryRestore>False</LibraryRestore>`
+to the `<PropertyGroup>` in each affected `WebApp.csproj`:
+
+```xml
+<PropertyGroup>
+  <TargetFramework>net10.0</TargetFramework>
+  <!-- ... -->
+  <LibraryRestore>False</LibraryRestore>
+</PropertyGroup>
+```
+
+The `libman.json` files are left intact so developers can still run `libman restore` manually
+or via Visual Studio's "Restore Client-Side Libraries" when needed.
+
+---
+
+## Limitations
+
+- **Demo 07 Shipping**: `PaymentAuthorizedHandler` and `OrderItemsCollectedHandler` require a PostgreSQL database and are excluded.
+- **Demos 10–11**: ViewModelComposition handlers make live HTTP calls; only compilation is verified.
+- **Demo 12**: Handlers that use `SalesContext`/`SalesData`/etc. require a running database and are excluded.
+
