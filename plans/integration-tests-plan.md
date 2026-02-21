@@ -7,15 +7,59 @@ This document describes the plan to add basic integration tests to each demo in 
 ## Technology Choices
 
 - **Test framework**: xUnit 2.x
-- **NServiceBus handler testing**: `NServiceBus.Testing` 10.x — provides `TestableMessageHandlerContext` so handlers and sagas can be exercised without a running broker or database
+- **Container-based broker**: `Testcontainers.RabbitMq 4.10.0` — spins up a real RabbitMQ broker in Docker for end-to-end message flow tests (demos 01–05)
+- **NServiceBus handler testing**: `NServiceBus.Testing` 10.x — provides `TestableMessageHandlerContext` so handlers and sagas can be exercised without a running broker or database (demos 06–12)
 - **Project structure**: one `tests/Demo.Tests/` folder per demo, referenced by the demo's `Demo.sln`
+
+## CI Integration
+
+Tests run automatically in every CI build via the Bullseye build script in `targets/Program.cs`:
+
+```csharp
+// Build all solutions first
+Target("default",
+    Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories).Order(),
+    solution => Run("dotnet", $"build \"{solution}\" --configuration Release"));
+
+// Then run dotnet test against the already-built solutions
+Target("test",
+    dependsOn: ["default"],
+    Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories).Order(),
+    solution => Run("dotnet", $"test \"{solution}\" --configuration Release --no-build"));
+```
+
+`.github/workflows/ci.yml` runs both steps on every push and pull request:
+
+```yaml
+- run: ./build.sh        # builds all solutions
+- run: ./build.sh test   # runs all tests
+```
+
+Demos 01–05 use `Testcontainers.RabbitMq`, which requires Docker. GitHub Actions `ubuntu-latest` runners have Docker pre-installed, so these tests work in CI without any additional setup.
+
+## Running Tests Locally
+
+```bash
+# Build everything first, then test
+./build.sh
+./build.sh test
+
+# Or build + test together
+./build.sh test   # implicitly runs 'default' first due to dependsOn
+
+# Single demo
+cd 01-basic-send && dotnet test tests/Demo.Tests/Demo.Tests.csproj
+```
+
+---
 
 ## Demo-by-Demo Plan (Implemented)
 
 ### Demos 01–05 (Raw RabbitMQ)
 
-All message-handling and message-sending logic has been extracted into dedicated endpoint
-classes, making each demo testable with a real RabbitMQ broker via Testcontainers.
+All message-handling and message-sending logic has been extracted from `Program.cs` into
+dedicated endpoint classes, making each demo fully testable against a real RabbitMQ broker
+via Testcontainers.
 
 #### Extracted Classes
 
@@ -60,7 +104,7 @@ Console.ReadLine();
 
 #### Integration Tests (Testcontainers)
 
-Each demo's `tests/Demo.Tests/` project contains one end-to-end integration test that starts a real RabbitMQ broker in Docker using `Testcontainers.RabbitMq 4.10.0`. The test exercises the full message flow:
+Each demo's `tests/Demo.Tests/` project contains one end-to-end integration test that starts a real RabbitMQ broker in Docker (`rabbitmq:4-management-alpine`) using `Testcontainers.RabbitMq 4.10.0`. `IClassFixture<RabbitMqFixture>` starts one container per test class; `TaskCompletionSource<T>` captures received messages with a 10-second timeout. The test exercises the full message flow:
 
 ```
 Demo 01: Website.SendOrderAsync → Sales.StartAsync (receives message)
@@ -68,18 +112,6 @@ Demo 02: Website.SendOrderAsync → Sales.StartAsync (auto-replies) → Website 
 Demo 03: Website.SendOrderAsync → Sales.StartAsync (sends 2 replies) → Website receives both
 Demo 04: Website.SendOrderAsync → Sales (replies + publishes) → Billing (receives event)
 Demo 05: Website.SendOrderAsync → Sales (replies + publishes) → Billing AND Warehouse (both receive)
-```
-
-#### Running the Tests
-
-```bash
-# Single demo
-cd 01-basic-send && dotnet test tests/Demo.Tests/Demo.Tests.csproj
-
-# All 5 demos
-for d in 01-basic-send 02-req-resp 03-req-multi-resp 04-basic-pub-sub 05-pub-multi-sub; do
-  dotnet test $d/tests/Demo.Tests/Demo.Tests.csproj
-done
 ```
 
 #### Note on `mandatory: false` for downstream exchange publishes
@@ -90,6 +122,7 @@ in a pub/sub pattern, the publisher does not require that anyone is listening. I
 subscriber is bound, the message is silently dropped. Using `mandatory: true` would cause
 a `PublishReturnException` in any test or scenario where no downstream subscriber is running.
 
+---
 
 ### Demo 06 — Commands & Pub/Sub with NServiceBus (`06-cmd-events`)
 
@@ -190,19 +223,46 @@ Most handlers require a running database (`SalesContext`, `SalesData`, etc.). Th
 
 Test projects are added to each demo's `Demo.sln`.
 
-## Running the Tests
+---
 
-```bash
-# Run tests for a single demo
-cd 06-cmd-events && dotnet test tests/Demo.Tests/Demo.Tests.csproj
+## Build Fixes Applied
 
-# Run all tests across all demos
-for dir in 0*/; do dotnet test "$dir/tests/Demo.Tests/Demo.Tests.csproj" --no-build 2>/dev/null || dotnet test "$dir/tests/Demo.Tests/Demo.Tests.csproj"; done
+Several solutions had pre-existing issues that prevented building in CI:
+
+### MSB5004: duplicate project names (demos 06, 07, 08, 09)
+
+Each `.sln` contained dangling `{2150E333-8FDC-42A3-9474-1A3956D46DE8}` (Solution Folder)
+entries with lowercase names (e.g. `sales`, `billing`, `warehouse`, `shipping`) that MSBuild
+treats as duplicates of the real C# projects under its case-insensitive name comparison.
+None of these folders appeared in a `NestedProjects` section.
+
+**Fix:** removed the spurious `Project...EndProject` blocks from each affected `.sln`.
+
+### LIB002: CDN library resolution failure (demos 10, 11, 12)
+
+`WebApp.csproj` references `Microsoft.Web.LibraryManager.Build`, which injects a
+`LibraryManagerRestore` target that downloads jQuery and Bootstrap from `cdnjs.com` at
+build time. This fails in CI where outbound CDN access is unavailable.
+
+The target is gated on `'$(LibraryRestore)' != 'False'`. Added `<LibraryRestore>False</LibraryRestore>`
+to the `<PropertyGroup>` in each affected `WebApp.csproj`:
+
+```xml
+<PropertyGroup>
+  <TargetFramework>net10.0</TargetFramework>
+  <!-- ... -->
+  <LibraryRestore>False</LibraryRestore>
+</PropertyGroup>
 ```
+
+The `libman.json` files are left intact so developers can still run `libman restore` manually
+or via Visual Studio's "Restore Client-Side Libraries" when needed.
+
+---
 
 ## Limitations
 
-- **Demos 01–05**: Tests verify API surface only; end-to-end message routing still requires a running RabbitMQ instance.
 - **Demo 07 Shipping**: `PaymentAuthorizedHandler` and `OrderItemsCollectedHandler` require a PostgreSQL database and are excluded.
 - **Demos 10–11**: ViewModelComposition handlers make live HTTP calls; only compilation is verified.
 - **Demo 12**: Handlers that use `SalesContext`/`SalesData`/etc. require a running database and are excluded.
+
