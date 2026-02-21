@@ -23,12 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipping", "shipping\Shippi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Tests", "..\tests\Demo.Tests\Demo.Tests.csproj", "{2C3D9E7F-434E-4E05-A466-FB804F200171}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sales", "sales", "{10DCE821-6B6B-46D6-C1CF-1CACCDCB8A67}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "billing", "billing", "{7FB7646D-4138-FB10-37A1-8D15C194EAE0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "warehouse", "warehouse", "{9B6F32A3-FBFB-DB82-E2FF-A8CEA11DDEAA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
