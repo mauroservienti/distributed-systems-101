@@ -27,12 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance", "finance\Finance.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Tests", "..\tests\Demo.Tests\Demo.Tests.csproj", "{3788A888-FD3E-4F9E-B9EE-53F96FCD8938}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sales", "sales", "{10DCE821-6B6B-46D6-C1CF-1CACCDCB8A67}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shipping", "shipping", "{59E94403-2D99-750A-1EA4-0C1FA3AC95B2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "finance", "finance", "{B116B1B3-9AE8-BDA1-8853-C5505B0E90AE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
