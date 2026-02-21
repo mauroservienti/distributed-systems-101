@@ -11,6 +11,11 @@ class Program
             Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories),
             solution => Run("dotnet", $"build \"{solution}\" --configuration Release"));
 
+        Target("test",
+            dependsOn: ["default"],
+            Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories),
+            solution => Run("dotnet", $"test \"{solution}\" --configuration Release --no-build"));
+
         await RunTargetsAndExitAsync(args);
     }
 }
