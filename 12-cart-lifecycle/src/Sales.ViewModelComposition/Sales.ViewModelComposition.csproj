@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="NServiceBus" Version="10.2.4" />
+    <PackageReference Include="NServiceBus" Version="10.2.5" />
     <PackageReference Include="ServiceComposer.AspNetCore" Version="5.2.1" />
   </ItemGroup>
 
